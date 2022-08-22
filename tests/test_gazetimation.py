@@ -1,5 +1,5 @@
 import numpy as np
-from gaze import Gazetimation
+from gazetimation import Gazetimation
 
 gz = Gazetimation()
 
@@ -49,3 +49,11 @@ def test_visualize():
 
 def test_find_device():
     assert gz.find_device(max_try = 0) == -1
+
+def test_find_camera_matrix():
+    frame = np.zeros((600, 400))
+    assert np.all(gz.find_camera_matrix(frame) == np.array([[400, 0, 200], [0, 400, 300], [0, 0, 1]]))
+    
+def test_find_face_num(mocker):
+    mocker.patch('gazetimation.Gazetimation.find_face_num', return_value=2)
+    assert gz.find_face_num() == 2

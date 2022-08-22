@@ -1,8 +1,6 @@
 import mediapipe as mp
 import cv2
 import numpy as np
-from helpers import relative, relativeT, calc_vertexes
-
 
 class Gazetimation:
     def __init__(
@@ -133,9 +131,10 @@ class Gazetimation:
 
     def find_face_num(self, max_try=100):
         mp_face_detection = mp.solutions.face_detection
+        cap = cv2.VideoCapture(self.device)
+
         with mp_face_detection.FaceDetection(
             model_selection=1, min_detection_confidence=0.5) as face_detection:
-            cap = cv2.VideoCapture(self._device)
             for try_ in range(max_try):
                 success, frame = cap.read()
                 if success:
@@ -150,57 +149,6 @@ class Gazetimation:
                 return 0
             else:
                 return len(results.detections)
-
-    def set_camera_matrix(self, camera_matrix):
-        self._camera_matrix = camera_matrix
-
-    def run(self, max_num_faces=1):
-        mp_face_mesh = mp.solutions.face_mesh  # initialize the face mesh model
-        assert self._device >= 0
-        cap = cv2.VideoCapture(self._device)  # chose camera index (try 1, 2, 3)
-        with mp_face_mesh.FaceMesh(
-            max_num_faces=max_num_faces,  # number of faces to track in each frame
-            refine_landmarks=True,  # includes iris landmarks in the face mesh model
-            min_detection_confidence=0.5,
-            min_tracking_confidence=0.5,
-        ) as face_mesh:
-            while cap.isOpened():
-                success, frame = cap.read()
-                if self._camera_matrix is None:
-                    self._camera_matrix = self.find_camera_matrix(frame)
-                if not success:  # no frame input
-                    print("Ignoring empty camera frame.")
-                    continue
-                # To improve performance, optionally mark the image as not writeable to
-                # pass by reference.
-                frame.flags.writeable = False
-                frame = cv2.cvtColor(
-                    frame, cv2.COLOR_BGR2RGB
-                )  # frame to RGB for the face-mesh model
-                results = face_mesh.process(frame)
-                frame = cv2.cvtColor(
-                    frame, cv2.COLOR_RGB2BGR
-                )  # frame back to BGR for OpenCV
-
-                if results.multi_face_landmarks:
-                    for face_num in range(max_num_faces):
-                        try:
-                            (left_pupil, right_pupil), (
-                                gaze_left_eye,
-                                gaze_right_eye,
-                            ) = self.calculate_head_eye_poses(
-                                frame, results.multi_face_landmarks[face_num]
-                            )  # gaze estimation
-                        except TypeError as error:
-                            print(f'TypeError: {error}')
-                            continue
-                        if self._visualize:
-                            self.draw(frame, left_pupil, gaze_left_eye)
-                            self.draw(frame, right_pupil, gaze_right_eye)
-                cv2.imshow("output window", frame)
-                if cv2.waitKey(2) & 0xFF == 27:
-                    break
-        cap.release()
 
     def calculate_head_eye_poses(
         self, frame: np.ndarray, points: np.ndarray, gaze_distance=10
@@ -323,6 +271,54 @@ class Gazetimation:
             )
 
             return (left_pupil, right_pupil), (gaze_left_eye, gaze_right_eye)
+
+    def run(self, max_num_faces=1):
+        mp_face_mesh = mp.solutions.face_mesh  # initialize the face mesh model
+        assert self._device >= 0
+        cap = cv2.VideoCapture(self._device)  # chose camera index (try 1, 2, 3)
+        with mp_face_mesh.FaceMesh(
+            max_num_faces=max_num_faces,  # number of faces to track in each frame
+            refine_landmarks=True,  # includes iris landmarks in the face mesh model
+            min_detection_confidence=0.5,
+            min_tracking_confidence=0.5,
+        ) as face_mesh:
+            while cap.isOpened():
+                success, frame = cap.read()
+                if self._camera_matrix is None:
+                    self._camera_matrix = self.find_camera_matrix(frame)
+                if not success:  # no frame input
+                    print("Ignoring empty camera frame.")
+                    continue
+                # To improve performance, optionally mark the image as not writeable to
+                # pass by reference.
+                frame.flags.writeable = False
+                frame = cv2.cvtColor(
+                    frame, cv2.COLOR_BGR2RGB
+                )  # frame to RGB for the face-mesh model
+                results = face_mesh.process(frame)
+                frame = cv2.cvtColor(
+                    frame, cv2.COLOR_RGB2BGR
+                )  # frame back to BGR for OpenCV
+
+                if results.multi_face_landmarks:
+                    for face_num in range(max_num_faces):
+                        try:
+                            (left_pupil, right_pupil), (
+                                gaze_left_eye,
+                                gaze_right_eye,
+                            ) = self.calculate_head_eye_poses(
+                                frame, results.multi_face_landmarks[face_num]
+                            )  # gaze estimation
+                        except TypeError as error:
+                            print(f'TypeError: {error}')
+                            continue
+                        if self._visualize:
+                            self.draw(frame, left_pupil, gaze_left_eye)
+                            self.draw(frame, right_pupil, gaze_right_eye)
+                cv2.imshow("output window", frame)
+                if cv2.waitKey(2) & 0xFF == 27:
+                    break
+        cap.release()
 
     def draw(self, frame, left_pupil, gaze):
         # Draw gaze line into screen

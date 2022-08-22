@@ -4,6 +4,13 @@ version = "0.1.0"
 description = "Gaze estimation from facial landmarks"
 authors = ["Shuvo Kumar Paul <shuvo.k.paul@gmail.com>"]
 license = "MIT"
+keywords = ["gaze", "gaze estimation", "head pose", "eye pose"]
+readme = "README.md"
+homepage = "https://github.com/paul-shuvo/gazetimation"
+repository = "https://github.com/paul-shuvo/gazetimation"
+include = [
+    "LICENSE",
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -18,8 +25,6 @@ black = "^22.6.0"
 pytest-cov = "^3.0.0"
 
 [tool.poetry.scripts]
-test = "pytest"
-cov = "pytest --cov=src tests/"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
