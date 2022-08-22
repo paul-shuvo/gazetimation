@@ -10,7 +10,7 @@ class Gazetimation:
         left_eye_ball_center: np.ndarray = None,
         right_eye_ball_center: np.ndarray = None,
         camera_matrix: np.ndarray = None,
-        device: int = -1,
+        device: int = 0,
         visualize: bool = True,
     ) -> None:
         """Initialize the Gazetimation object.
