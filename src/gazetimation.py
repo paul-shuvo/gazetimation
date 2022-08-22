@@ -2,6 +2,7 @@ import mediapipe as mp
 import cv2
 import numpy as np
 
+
 class Gazetimation:
     def __init__(
         self,
@@ -12,7 +13,18 @@ class Gazetimation:
         device: int = -1,
         visualize: bool = True,
     ) -> None:
+        """Initialize the Gazetimation object.
 
+        This holds the configurations of the Gazetimation class.
+
+        Args:
+            face_model_points_3d (np.ndarray, optional): Predefined 3D points for face model. Defaults to None.
+            left_eye_ball_center (np.ndarray, optional): Predefined 3D points for left eye ball center. Defaults to None.
+            right_eye_ball_center (np.ndarray, optional): Predefined 3D points for right eye ball center. Defaults to None.
+            camera_matrix (np.ndarray, optional): Camera matrix. Defaults to None.
+            device (int, optional): Device index for the video device. Defaults to -1.
+            visualize (bool, optional): If visualize is true then it shows annotated images. Defaults to True.
+        """
         if not face_model_points_3d:
             self._face_model_points_3d = np.array(
                 [
@@ -53,64 +65,144 @@ class Gazetimation:
         else:
             self._device = device
         self._visualize = visualize
-    
+
     @property
-    def face_model_points_3d(self):
+    def face_model_points_3d(self) -> np.ndarray:
+        """Getter method for face_model_points_3d.
+        Returns:
+            np.ndarray: 3D face model points.
+        """
         return self._face_model_points_3d
-    
+
     @property
-    def left_eye_ball_center(self):
+    def left_eye_ball_center(self) -> np.ndarray:
+        """Getter method for left_eye_ball_center.
+
+        Returns:
+            np.ndarray: 3D points for left eye ball center.
+        """
         return self._left_eye_ball_center
-    
+
     @property
-    def right_eye_ball_center(self):
+    def right_eye_ball_center(self) -> np.ndarray:
+        """Getter method for right_eye_ball_center.
+
+        Returns:
+            np.ndarray: 3D points for right eye ball center.
+        """
         return self._right_eye_ball_center
-    
+
     @property
-    def facial_landmark_index(self):
+    def facial_landmark_index(self) -> list:
+        """Getter method for facial_landmark_index.
+
+        Returns:
+            list: Required facial landmark indexes.
+        """
         return self._facial_landmark_index
-    
+
     @property
-    def camera_matrix(self):
+    def camera_matrix(self) -> np.ndarray:
+        """Getter method for camera_matrix.
+
+        Returns:
+            np.ndarray: The camera matrix.
+        """
         return self._camera_matrix
-    
+
     @property
-    def device(self):
+    def device(self) -> int:
+        """Getter method for device.
+
+        Returns:
+            int: Index for the video device.
+        """
         return self._device
-    
+
     @property
-    def visualize(self):
+    def visualize(self) -> bool:
+        """Getter method for visualize.
+
+        Returns:
+            bool: Whether to show annotated images.
+        """
         return self._visualize
-    
+
     @face_model_points_3d.setter
-    def face_model_points_3d(self, value):
+    def face_model_points_3d(self, value: np.ndarray):
+        """Setter method for face_model_points_3d.
+
+        Args:
+            value (np.ndarray): New/updated value.
+        """
         self._face_model_points_3d = value
-        
+
     @left_eye_ball_center.setter
-    def left_eye_ball_center(self, value):
+    def left_eye_ball_center(self, value: np.ndarray):
+        """Setter method for left_eye_ball_center.
+
+        Args:
+            value (np.ndarray): New/updated value.
+        """
         self._left_eye_ball_center = value
-    
+
     @right_eye_ball_center.setter
-    def right_eye_ball_center(self, value):
+    def right_eye_ball_center(self, value: np.ndarray):
+        """Setter method for right_eye_ball_center.
+
+        Args:
+            value (np.ndarray): New/updated value.
+        """
         self._right_eye_ball_center = value
-    
+
     @facial_landmark_index.setter
-    def facial_landmark_index(self, value):
+    def facial_landmark_index(self, value: list):
+        """Setter method for facial_landmark_index.
+
+        Args:
+            value (list): New/updated value.
+        """
         self._facial_landmark_index = value
-    
+
     @camera_matrix.setter
-    def camera_matrix(self, value):
+    def camera_matrix(self, value: np.ndarray):
+        """Setter method for camera_matrix.
+
+        Args:
+            value (np.ndarray): New/updated value.
+        """
         self._camera_matrix = value
-    
+
     @device.setter
-    def device(self, value):
+    def device(self, value: int):
+        """Setter method for device.
+
+        Args:
+            value (int): New/updated value.
+        """
         self._device = value
-    
+
     @visualize.setter
-    def visualize(self, value):
+    def visualize(self, value: bool):
+        """Setter method for visualize.
+
+        Args:
+            value (bool): New/updated value.
+        """
         self._visualize = value
-        
-    def find_device(self, max_try: int = 10):
+
+    def find_device(self, max_try: int = 10) -> int:
+        """Find the video device index.
+
+        It tries to iterate over a number of system device
+        and returns the first eligible device.
+
+        Args:
+            max_try (int, optional): Max number of devices to try. Defaults to 10.
+
+        Returns:
+            int: Index of the video device.
+        """
         for device in range(max_try):
             cap = cv2.VideoCapture(device)
             while cap.isOpened():
@@ -119,7 +211,15 @@ class Gazetimation:
                     return device
         return -1
 
-    def find_camera_matrix(self, frame):
+    def find_camera_matrix(self, frame: np.ndarray) -> np.ndarray:
+        """Calculates the camera matrix from image dimensions.
+
+        Args:
+            frame (np.ndarray): The image.
+
+        Returns:
+            np.ndarray: Camera matrix.
+        """
         focal_length = frame.shape[1]
         center = (frame.shape[1] / 2, frame.shape[0] / 2)
         camera_matrix = np.array(
@@ -129,12 +229,25 @@ class Gazetimation:
 
         return camera_matrix
 
-    def find_face_num(self, max_try=100):
+    def find_face_num(self, max_try: int = 100, video_path: str = None) -> int:
+        """Finds number of faces/people present in the scene
+
+        Args:
+            max_try (int, optional): Maximum number of frames to try. Defaults to 100.
+            video_path (str, optional): Path to the video file. Defaults to None.
+
+        Returns:
+            int: The number of faces/people present in the scene.
+        """
         mp_face_detection = mp.solutions.face_detection
-        cap = cv2.VideoCapture(self.device)
+        if video_path:
+            cap = cv2.VideoCapture(video_path)
+        else:
+            cap = cv2.VideoCapture(self.device)
 
         with mp_face_detection.FaceDetection(
-            model_selection=1, min_detection_confidence=0.5) as face_detection:
+            model_selection=1, min_detection_confidence=0.5
+        ) as face_detection:
             for try_ in range(max_try):
                 success, frame = cap.read()
                 if success:
@@ -151,8 +264,18 @@ class Gazetimation:
                 return len(results.detections)
 
     def calculate_head_eye_poses(
-        self, frame: np.ndarray, points: np.ndarray, gaze_distance=10
-    ):
+        self, frame: np.ndarray, points: object, gaze_distance=10
+    ) -> tuple:
+        """Calculates the head and eye poses (gaze)
+
+        Args:
+            frame (np.ndarray): The image.
+            points (object): Holds the facial landmarks points.
+            gaze_distance (int, optional): Gaze distance. Defaults to 10.
+
+        Returns:
+            tuple: Returns two tuples (left and right eye) containing the projected gaze on the image plane.
+        """
 
         frame_height, frame_width, _ = frame.shape
         # Mediapipe points are normalized to [-1, 1].
@@ -164,7 +287,7 @@ class Gazetimation:
                     points.landmark[ind].x * frame_width,
                     points.landmark[ind].y * frame_height,
                 )
-                for ind in self._facial_landmark_index
+                for ind in self.facial_landmark_index
             ]
         )
 
@@ -176,9 +299,9 @@ class Gazetimation:
         )
         dist_coeffs = np.zeros((4, 1))  # Assuming no lens distortion
         _, rotation_vector, translation_vector = cv2.solvePnP(
-            self._face_model_points_3d,
+            self.face_model_points_3d,
             image_points,
-            self._camera_matrix,
+            self.camera_matrix,
             dist_coeffs,
             flags=cv2.SOLVEPNP_ITERATIVE,
         )
@@ -199,7 +322,7 @@ class Gazetimation:
 
         # Transformation between image point to world point
         success, transformation, _ = cv2.estimateAffine3D(
-            image_points_ext, self._face_model_points_3d
+            image_points_ext, self.face_model_points_3d
         )
 
         # if estimateAffine3D was successful
@@ -212,10 +335,10 @@ class Gazetimation:
 
             # 3D gaze point (10 is arbitrary value denoting gaze distance)
             gaze_point_3D = [
-                self._left_eye_ball_center
-                + (pupil_world_cord[0] - self._left_eye_ball_center) * gaze_distance,
-                self._right_eye_ball_center
-                + (pupil_world_cord[1] - self._right_eye_ball_center) * gaze_distance,
+                self.left_eye_ball_center
+                + (pupil_world_cord[0] - self.left_eye_ball_center) * gaze_distance,
+                self.right_eye_ball_center
+                + (pupil_world_cord[1] - self.right_eye_ball_center) * gaze_distance,
             ]
 
             # Project a 3D gaze direction onto the image plane.
@@ -227,7 +350,7 @@ class Gazetimation:
                 ),
                 rotation_vector,
                 translation_vector,
-                self._camera_matrix,
+                self.camera_matrix,
                 dist_coeffs,
             )
             gaze_direction_right_eye, _ = cv2.projectPoints(
@@ -238,44 +361,53 @@ class Gazetimation:
                 ),
                 rotation_vector,
                 translation_vector,
-                self._camera_matrix,
+                self.camera_matrix,
                 dist_coeffs,
             )
             # project 3D head pose into the image plane
-            head_pose, _ = cv2.projectPoints(
+            head_pose_left, _ = cv2.projectPoints(
                 (int(pupil_world_cord[0][0]), int(pupil_world_cord[0][1]), int(40)),
                 rotation_vector,
                 translation_vector,
-                self._camera_matrix,
+                self.camera_matrix,
                 dist_coeffs,
             )
 
-            head_pose1, _ = cv2.projectPoints(
+            head_pose_right, _ = cv2.projectPoints(
                 (int(pupil_world_cord[1][0]), int(pupil_world_cord[1][1]), int(40)),
                 rotation_vector,
                 translation_vector,
-                self._camera_matrix,
+                self.camera_matrix,
                 dist_coeffs,
             )
             # correct gaze for head rotation
             gaze_left_eye = (
                 left_pupil
                 + (gaze_direction_left_eye[0][0] - left_pupil)
-                - (head_pose[0][0] - left_pupil)
+                - (head_pose_left[0][0] - left_pupil)
             )
 
             gaze_right_eye = (
                 right_pupil
                 + (gaze_direction_right_eye[0][0] - right_pupil)
-                - (head_pose1[0][0] - right_pupil)
+                - (head_pose_right[0][0] - right_pupil)
             )
 
             return (left_pupil, right_pupil), (gaze_left_eye, gaze_right_eye)
 
-    def run(self, max_num_faces=1):
+    def run(self, max_num_faces: int = 1, video_path: str = None):
+        """Runs the solution
+
+        Args:
+            max_num_faces (int, optional): Maximum number of face(s)/people present in the scene. Defaults to 1.
+            video_path (str, optional): Path to the video. Defaults to None.
+        """
         mp_face_mesh = mp.solutions.face_mesh  # initialize the face mesh model
-        assert self._device >= 0
-        cap = cv2.VideoCapture(self._device)  # chose camera index (try 1, 2, 3)
+        assert self.device >= 0
+        if video_path:
+            cap = cv2.VideoCapture(video_path)
+        else:
+            cap = cv2.VideoCapture(self.device)  # chose camera index (try 1, 2, 3)
         with mp_face_mesh.FaceMesh(
             max_num_faces=max_num_faces,  # number of faces to track in each frame
             refine_landmarks=True,  # includes iris landmarks in the face mesh model
@@ -284,8 +416,8 @@ class Gazetimation:
         ) as face_mesh:
             while cap.isOpened():
                 success, frame = cap.read()
-                if self._camera_matrix is None:
-                    self._camera_matrix = self.find_camera_matrix(frame)
+                if self.camera_matrix is None:
+                    self.camera_matrix = self.find_camera_matrix(frame)
                 if not success:  # no frame input
                     print("Ignoring empty camera frame.")
                     continue
@@ -310,9 +442,9 @@ class Gazetimation:
                                 frame, results.multi_face_landmarks[face_num]
                             )  # gaze estimation
                         except TypeError as error:
-                            print(f'TypeError: {error}')
+                            print(f"TypeError: {error}")
                             continue
-                        if self._visualize:
+                        if self.visualize:
                             self.draw(frame, left_pupil, gaze_left_eye)
                             self.draw(frame, right_pupil, gaze_right_eye)
                 cv2.imshow("output window", frame)
