@@ -395,13 +395,81 @@ class Gazetimation:
 
             return (left_pupil, right_pupil), (gaze_left_eye, gaze_right_eye)
 
-    def run(self, max_num_faces: int = 1, video_path: str = None):
+    def smoothing(
+        self,
+        smoothing_weight,
+        smoothing_frame_range,
+        left_pupil,
+        right_pupil,
+        gaze_left_eye,
+        gaze_right_eye,
+    ):
+        if not self.gaze_data:
+            self.gaze_data = {
+                "left_pupil": np.tile(np.array(left_pupil), (smoothing_frame_range, 1)),
+                "right_pupil": np.tile(
+                    np.array(right_pupil), (smoothing_frame_range, 1)
+                ),
+                "gaze_left_eye": np.tile(
+                    np.array(gaze_left_eye), (smoothing_frame_range, 1)
+                ),
+                "gaze_right_eye": np.tile(
+                    np.array(gaze_right_eye), (smoothing_frame_range, 1)
+                ),
+            }
+            if smoothing_weight == "linear":
+                self.weight = np.arange(1, smoothing_frame_range + 1)
+                self.weight = self.weight / np.sum(self.weight)
+
+            return left_pupil, right_pupil, gaze_left_eye, gaze_right_eye
+        self.gaze_data["left_pupil"][1:] = self.gaze_data["left_pupil"][:-1]
+        self.gaze_data["left_pupil"][0] = np.array(left_pupil)
+
+        self.gaze_data["right_pupil"][1:] = self.gaze_data["right_pupil"][:-1]
+        self.gaze_data["right_pupil"][0] = np.array(right_pupil)
+
+        self.gaze_data["gaze_left_eye"][1:] = self.gaze_data["gaze_left_eye"][:-1]
+        self.gaze_data["gaze_left_eye"][0] = np.array(gaze_left_eye)
+
+        self.gaze_data["gaze_right_eye"][1:] = self.gaze_data["gaze_right_eye"][:-1]
+        self.gaze_data["gaze_right_eye"][0] = np.array(gaze_right_eye)
+
+        if smoothing_weight == "uniform":
+            left_pupil_, right_pupil_, gaze_left_eye_, gaze_right_eye_ = (
+                np.mean(self.gaze_data["left_pupil"], axis=0),
+                np.mean(self.gaze_data["right_pupil"], axis=0),
+                np.mean(self.gaze_data["gaze_left_eye"], axis=0),
+                np.mean(self.gaze_data["gaze_right_eye"], axis=0),
+            )
+        elif smoothing_weight == "linear":
+            left_pupil_, right_pupil_, gaze_left_eye_, gaze_right_eye_ = (
+                np.mean(np.einsum('ij, i -> ij', self.gaze_data["left_pupil"], self.weight), axis=0),
+                np.mean(np.einsum('ij, i -> ij', self.gaze_data["right_pupil"], self.weight), axis=0),
+                np.mean(np.einsum('ij, i -> ij', self.gaze_data["gaze_left_eye"], self.weight), axis=0),
+                np.mean(np.einsum('ij, i -> ij', self.gaze_data["gaze_right_eye"], self.weight), axis=0),
+            )
+
+        return left_pupil_, right_pupil_, gaze_left_eye_, gaze_right_eye_
+
+    def run(
+        self,
+        max_num_faces: int = 1,
+        video_path: str = None,
+        smoothing=True,
+        smoothing_frame_range=32,
+        smoothing_weight="uniform",
+        custom_smoothing_func=None,
+    ):
         """Runs the solution
 
         Args:
             max_num_faces (int, optional): Maximum number of face(s)/people present in the scene. Defaults to 1.
             video_path (str, optional): Path to the video. Defaults to None.
         """
+        if smoothing:
+            self.gaze_data = None
+        if not custom_smoothing_func:
+            smoothing_func = self.smoothing
         mp_face_mesh = mp.solutions.face_mesh  # initialize the face mesh model
         assert self.device >= 0
         if video_path:
@@ -441,6 +509,20 @@ class Gazetimation:
                             ) = self.calculate_head_eye_poses(
                                 frame, results.multi_face_landmarks[face_num]
                             )  # gaze estimation
+                            if smoothing:
+                                (
+                                    left_pupil,
+                                    right_pupil,
+                                    gaze_left_eye,
+                                    gaze_right_eye,
+                                ) = smoothing_func(
+                                    smoothing_weight,
+                                    smoothing_frame_range,
+                                    left_pupil,
+                                    right_pupil,
+                                    gaze_left_eye,
+                                    gaze_right_eye,
+                                )
                         except TypeError as error:
                             print(f"TypeError: {error}")
                             continue
@@ -501,14 +583,12 @@ class Gazetimation:
 
 
 # g = Gazetimation(device=1)
-# g.set_camera_matrix(
-#     np.array(
-#         [
-#             [1394.6027293299926, 0, 995.588675691456],
-#             [0, 1394.6027293299926, 599.3212928484164],
-#             [0, 0, 1],
-#         ]
-#     )
+# g.camera_matrix = np.array(
+#     [
+#         [1394.6027293299926, 0, 995.588675691456],
+#         [0, 1394.6027293299926, 599.3212928484164],
+#         [0, 0, 1],
+#     ]
 # )
 # # print(g.get_face_num())
-# g.run()
+# g.run(smoothing_weight='linear')
