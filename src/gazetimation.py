@@ -406,47 +406,50 @@ class Gazetimation:
     ):
         if not self.gaze_data:
             self.gaze_data = {
-                "left_pupil": np.tile(np.array(left_pupil), (smoothing_frame_range, 1)),
-                "right_pupil": np.tile(
+                'left_pupil': np.tile(np.array(left_pupil), (smoothing_frame_range, 1)),
+                'right_pupil': np.tile(
                     np.array(right_pupil), (smoothing_frame_range, 1)
                 ),
-                "gaze_left_eye": np.tile(
+                'gaze_left_eye': np.tile(
                     np.array(gaze_left_eye), (smoothing_frame_range, 1)
                 ),
-                "gaze_right_eye": np.tile(
+                'gaze_right_eye': np.tile(
                     np.array(gaze_right_eye), (smoothing_frame_range, 1)
                 ),
             }
-            if smoothing_weight == "linear":
+            if smoothing_weight == 'linear':
                 self.weight = np.arange(1, smoothing_frame_range + 1)
+                self.weight = self.weight / np.sum(self.weight)
+            elif smoothing_weight == 'logarithmic':
+                self.weight = np.logspace(0, 2.0, num=smoothing_frame_range)
                 self.weight = self.weight / np.sum(self.weight)
 
             return left_pupil, right_pupil, gaze_left_eye, gaze_right_eye
-        self.gaze_data["left_pupil"][1:] = self.gaze_data["left_pupil"][:-1]
-        self.gaze_data["left_pupil"][0] = np.array(left_pupil)
+        self.gaze_data['left_pupil'][1:] = self.gaze_data['left_pupil'][:-1]
+        self.gaze_data['left_pupil'][0] = np.array(left_pupil)
 
-        self.gaze_data["right_pupil"][1:] = self.gaze_data["right_pupil"][:-1]
+        self.gaze_data['right_pupil'][1:] = self.gaze_data['right_pupil'][:-1]
         self.gaze_data["right_pupil"][0] = np.array(right_pupil)
 
-        self.gaze_data["gaze_left_eye"][1:] = self.gaze_data["gaze_left_eye"][:-1]
-        self.gaze_data["gaze_left_eye"][0] = np.array(gaze_left_eye)
+        self.gaze_data['gaze_left_eye'][1:] = self.gaze_data['gaze_left_eye'][:-1]
+        self.gaze_data['gaze_left_eye'][0] = np.array(gaze_left_eye)
 
-        self.gaze_data["gaze_right_eye"][1:] = self.gaze_data["gaze_right_eye"][:-1]
-        self.gaze_data["gaze_right_eye"][0] = np.array(gaze_right_eye)
+        self.gaze_data['gaze_right_eye'][1:] = self.gaze_data['gaze_right_eye'][:-1]
+        self.gaze_data['gaze_right_eye'][0] = np.array(gaze_right_eye)
 
         if smoothing_weight == "uniform":
             left_pupil_, right_pupil_, gaze_left_eye_, gaze_right_eye_ = (
-                np.mean(self.gaze_data["left_pupil"], axis=0),
-                np.mean(self.gaze_data["right_pupil"], axis=0),
-                np.mean(self.gaze_data["gaze_left_eye"], axis=0),
-                np.mean(self.gaze_data["gaze_right_eye"], axis=0),
+                np.mean(self.gaze_data['left_pupil'], axis=0),
+                np.mean(self.gaze_data['right_pupil'], axis=0),
+                np.mean(self.gaze_data['gaze_left_eye'], axis=0),
+                np.mean(self.gaze_data['gaze_right_eye'], axis=0),
             )
-        elif smoothing_weight == "linear":
+        elif smoothing_weight == 'linear' or smoothing_weight == 'logarithmic':
             left_pupil_, right_pupil_, gaze_left_eye_, gaze_right_eye_ = (
-                np.mean(np.einsum('ij, i -> ij', self.gaze_data["left_pupil"], self.weight), axis=0),
-                np.mean(np.einsum('ij, i -> ij', self.gaze_data["right_pupil"], self.weight), axis=0),
-                np.mean(np.einsum('ij, i -> ij', self.gaze_data["gaze_left_eye"], self.weight), axis=0),
-                np.mean(np.einsum('ij, i -> ij', self.gaze_data["gaze_right_eye"], self.weight), axis=0),
+                np.sum(np.einsum('ij, i -> ij', self.gaze_data['left_pupil'], self.weight), axis=0),
+                np.sum(np.einsum('ij, i -> ij', self.gaze_data['right_pupil'], self.weight), axis=0),
+                np.sum(np.einsum('ij, i -> ij', self.gaze_data['gaze_left_eye'], self.weight), axis=0),
+                np.sum(np.einsum('ij, i -> ij', self.gaze_data['gaze_right_eye'], self.weight), axis=0),
             )
 
         return left_pupil_, right_pupil_, gaze_left_eye_, gaze_right_eye_
@@ -456,7 +459,7 @@ class Gazetimation:
         max_num_faces: int = 1,
         video_path: str = None,
         smoothing=True,
-        smoothing_frame_range=32,
+        smoothing_frame_range=8,
         smoothing_weight="uniform",
         custom_smoothing_func=None,
     ):
@@ -591,4 +594,4 @@ class Gazetimation:
 #     ]
 # )
 # # print(g.get_face_num())
-# g.run(smoothing_weight='linear')
+# g.run(smoothing_weight='linear', smoothing_frame_range=8)
