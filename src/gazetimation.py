@@ -18,9 +18,9 @@ class Gazetimation:
         This holds the configurations of the Gazetimation class.
 
         Args:
-            face_model_points_3d (np.ndarray, optional): Predefined 3D points for face model. Defaults to None.
-            left_eye_ball_center (np.ndarray, optional): Predefined 3D points for left eye ball center. Defaults to None.
-            right_eye_ball_center (np.ndarray, optional): Predefined 3D points for right eye ball center. Defaults to None.
+            face_model_points_3d (np.ndarray, optional): Predefined 3D reference points for face model. Defaults to None.
+            left_eye_ball_center (np.ndarray, optional): Predefined 3D reference points for left eye ball center. Defaults to None.
+            right_eye_ball_center (np.ndarray, optional): Predefined 3D reference points for right eye ball center. Defaults to None.
             camera_matrix (np.ndarray, optional): Camera matrix. Defaults to None.
             device (int, optional): Device index for the video device. Defaults to -1.
             visualize (bool, optional): If visualize is true then it shows annotated images. Defaults to True.
@@ -397,13 +397,26 @@ class Gazetimation:
 
     def smoothing(
         self,
-        smoothing_weight,
-        smoothing_frame_range,
-        left_pupil,
-        right_pupil,
-        gaze_left_eye,
-        gaze_right_eye,
-    ):
+        smoothing_weight: str,
+        smoothing_frame_range: int,
+        left_pupil: np.ndarray,
+        right_pupil: np.ndarray,
+        gaze_left_eye: np.ndarray,
+        gaze_right_eye: np.ndarray,
+    ) -> tuple:
+        """Smoothing is performed so the result doesn't have abrupt changes.
+
+        Args:
+            smoothing_weight (str): Type of smoothing.
+            smoothing_frame_range (int): Number of frame to consider to perform smoothing.
+            left_pupil (np.ndarray): Position of the left pupil.
+            right_pupil (np.ndarray): Position of the right pupil.
+            gaze_left_eye (np.ndarray): Position of the estimated gaze of left eye.
+            gaze_right_eye (np.ndarray): Position of the estimated gaze of right eye.
+
+        Returns:
+            tuple : Smoothed position of left_pupil, right_pupil, gaze_left_eye, gaze_right_eye
+        """        
         if not self.gaze_data:
             self.gaze_data = {
                 'left_pupil': np.tile(np.array(left_pupil), (smoothing_frame_range, 1)),
@@ -426,16 +439,16 @@ class Gazetimation:
 
             return left_pupil, right_pupil, gaze_left_eye, gaze_right_eye
         self.gaze_data['left_pupil'][1:] = self.gaze_data['left_pupil'][:-1]
-        self.gaze_data['left_pupil'][0] = np.array(left_pupil)
+        self.gaze_data['left_pupil'][0] = left_pupil
 
         self.gaze_data['right_pupil'][1:] = self.gaze_data['right_pupil'][:-1]
-        self.gaze_data["right_pupil"][0] = np.array(right_pupil)
+        self.gaze_data["right_pupil"][0] = right_pupil
 
         self.gaze_data['gaze_left_eye'][1:] = self.gaze_data['gaze_left_eye'][:-1]
-        self.gaze_data['gaze_left_eye'][0] = np.array(gaze_left_eye)
+        self.gaze_data['gaze_left_eye'][0] = gaze_left_eye
 
         self.gaze_data['gaze_right_eye'][1:] = self.gaze_data['gaze_right_eye'][:-1]
-        self.gaze_data['gaze_right_eye'][0] = np.array(gaze_right_eye)
+        self.gaze_data['gaze_right_eye'][0] = gaze_right_eye
 
         if smoothing_weight == "uniform":
             left_pupil_, right_pupil_, gaze_left_eye_, gaze_right_eye_ = (
@@ -465,14 +478,22 @@ class Gazetimation:
     ):
         """Runs the solution
 
+        _extended_summary_
+
         Args:
             max_num_faces (int, optional): Maximum number of face(s)/people present in the scene. Defaults to 1.
             video_path (str, optional): Path to the video. Defaults to None.
+            smoothing (bool, optional): If smoothing should be performed. Defaults to True.
+            smoothing_frame_range (int, optional): Number of frame to consider to perform smoothing.. Defaults to 8.
+            smoothing_weight (str, optional): Type of weighting scheme ("uniform", "linear", "logarithmic"). Defaults to "uniform".
+            custom_smoothing_func (_type_, optional): Custom smoothing function. Defaults to None.
         """
         if smoothing:
             self.gaze_data = None
-        if not custom_smoothing_func:
-            smoothing_func = self.smoothing
+            if not custom_smoothing_func:
+                smoothing_func = self.smoothing
+            else:
+                smoothing_func = custom_smoothing_func
         mp_face_mesh = mp.solutions.face_mesh  # initialize the face mesh model
         assert self.device >= 0
         if video_path:
