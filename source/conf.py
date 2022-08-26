@@ -15,7 +15,8 @@ project = 'Gazetimation'
 copyright = '2022, Shuvo Kumar Paul'
 author = 'Shuvo Kumar Paul'
 release = '1.0.0'
-
+html_logo = 'assets/gazetimation_logo.png'
+html_favicon = 'assets/favicon.ico'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
@@ -33,5 +34,11 @@ autoclass_content = 'both'
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'sphinx_typo3_theme'
+html_theme = 'furo'
+html_theme_options = {
+    "sidebar_hide_name": True,
+    "source_repository": "https://github.com/paul-shuvo/gazetimation/",
+    "source_branch": "dev",
+    "source_directory": "source/",
+}
 html_static_path = ['_static']

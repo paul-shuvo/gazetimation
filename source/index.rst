@@ -10,8 +10,7 @@ Welcome to the documentation!
 
 .. toctree::
    :caption: Introduction:
-   :maxdepth: 2
-   :titlesonly:
+   :maxdepth: 3
    :hidden:
 
    readme
@@ -25,10 +24,19 @@ Welcome to the documentation!
    
    gazetimation
 
+.. _APPENDIX:
+.. toctree::
+   :caption: Appendix
+   :maxdepth: 2
+   :titlesonly:
+   :hidden:
 
-Indices and tables
-==================
+   genindex
 
-* :ref:`genindex`
+   
+.. Indices and tables
+.. ==================
+
+.. * :ref:`genindex`
 .. * :ref:`modindex`
 .. * :ref:`search`

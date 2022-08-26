@@ -55,7 +55,25 @@ class Gazetimation:
                         self._right_eye_ball_center = np.array([[-29.05], [32.7], [-39.5]])
             
             camera_matrix (np.ndarray, optional): Camera matrix. Defaults to None.
-            device (int, optional): Device index for the video device. Defaults to -1.
+            
+                .. important::
+                    | if not provided, the system tries to calculate the camera matrix using the :py:meth:`find_camera_matrix method <gazetimation.Gazetimation.find_camera_matrix>`.
+                    | This calculated camera matrix is estimated from the width and height of the frame, it's not an exact solution.
+                        
+            device (int, optional): Device index for the video device. Defaults to 0.
+
+                .. attention::
+                    if a negative device index is provided, the system tries to find the first available video device index using the :py:meth:`find_device method <gazetimation.Gazetimation.find_device>`. 
+                    So, if not sure, pass `device = -1`.
+
+                    .. code-block:: python
+                    
+                        if device < 0:
+                            self._device = self.find_device()
+                        else:
+                            self._device = device
+                        
+            
             visualize (bool, optional): If visualize is true then it shows annotated images. Defaults to True.
         """
         if not face_model_points_3d:
@@ -521,8 +539,6 @@ class Gazetimation:
     ):
         """Runs the solution
 
-        _extended_summary_
-
         Args:
             max_num_faces (int, optional): Maximum number of face(s)/people present in the scene. Defaults to 1.
             video_path (str, optional): Path to the video. Defaults to None.
@@ -625,9 +641,9 @@ class Gazetimation:
         cv2.line(frame, p1, p2, (0, 0, 255), 2)
 
         v1, v2 = self.calculate_arrowhead(p1, p2)
+        cv2.circle(frame, center=p1, radius=6, color=(173, 68, 142), thickness=2)
         cv2.line(frame, v1, p2, (0, 255, 0), 2)
         cv2.line(frame, v2, p2, (0, 255, 0), 2)
-        cv2.circle(frame, center=p1, radius=5, color=(0, 0, 255))
 
     def calculate_arrowhead(
         self,
@@ -676,4 +692,4 @@ class Gazetimation:
 #     ]
 # )
 # # print(g.get_face_num())
-# g.run(smoothing_weight='linear', smoothing_frame_range=8, video_output_path='out.avi')
+# g.run(smoothing_weight='linear', smoothing_frame_range=8)
