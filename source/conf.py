@@ -23,7 +23,7 @@ extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon','sphinx.ext.viewcode']
 
 templates_path = ['_templates']
 exclude_patterns = []
-
+autoclass_content = 'both'
 
 # If true, the current module name will be prepended to all description
 # unit titles (such as .. function::).
@@ -33,5 +33,5 @@ exclude_patterns = []
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'furo'
+html_theme = 'sphinx_typo3_theme'
 html_static_path = ['_static']

@@ -18,9 +18,42 @@ class Gazetimation:
         This holds the configurations of the Gazetimation class.
 
         Args:
-            face_model_points_3d (np.ndarray, optional): Predefined 3D reference points for face model. Defaults to None.
-            left_eye_ball_center (np.ndarray, optional): Predefined 3D reference points for left eye ball center. Defaults to None.
-            right_eye_ball_center (np.ndarray, optional): Predefined 3D reference points for right eye ball center. Defaults to None.
+            face_model_points_3d (np.ndarray, optional): Predefine 3D reference points for face model. Defaults to None.
+            
+                .. note::
+                    If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.
+                
+                    .. code-block:: python
+
+                        self._face_model_points_3d = np.array(
+                            [
+                                (0.0, 0.0, 0.0),  # Nose tip
+                                (0, -63.6, -12.5),  # Chin
+                                (-43.3, 32.7, -26),  # Left eye, left corner
+                                (43.3, 32.7, -26),  # Right eye, right corner
+                                (-28.9, -28.9, -24.1),  # Left Mouth corner
+                                (28.9, -28.9, -24.1),  # Right mouth corner
+                            ]
+                        )
+                
+            left_eye_ball_center (np.ndarray, optional): Predefine 3D reference points for left eye ball center. Defaults to None.
+            
+                .. note::
+                    If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.
+                
+                    .. code-block:: python
+                        
+                        self._left_eye_ball_center = np.array([[29.05], [32.7], [-39.5]])
+            
+            right_eye_ball_center (np.ndarray, optional): Predefine 3D reference points for right eye ball center. Defaults to None.
+            
+                .. note::
+                    If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.
+                
+                    .. code-block:: python
+                        
+                        self._right_eye_ball_center = np.array([[-29.05], [32.7], [-39.5]])
+            
             camera_matrix (np.ndarray, optional): Camera matrix. Defaults to None.
             device (int, optional): Device index for the video device. Defaults to -1.
             visualize (bool, optional): If visualize is true then it shows annotated images. Defaults to True.
@@ -264,7 +297,7 @@ class Gazetimation:
                 return len(results.detections)
 
     def calculate_head_eye_poses(
-        self, frame: np.ndarray, points: object, gaze_distance=10
+        self, frame: np.ndarray, points: object, gaze_distance: int = 10, face_model_points_3d: np.ndarray=None
     ) -> tuple:
         """Calculates the head and eye poses (gaze)
 
@@ -272,12 +305,21 @@ class Gazetimation:
             frame (np.ndarray): The image.
             points (object): Holds the facial landmarks points.
             gaze_distance (int, optional): Gaze distance. Defaults to 10.
+            face_model_points_3d (np.ndarray, optional): Predefined 3D reference points for face model. Defaults to None.
+
 
         Returns:
-            tuple: Returns two tuples (left and right eye) containing the projected gaze on the image plane.
+            tuple: Returns two tuples (left and right eye) containing the pupil location and the projected gaze on the image plane.
         """
 
         frame_height, frame_width, _ = frame.shape
+        
+        # If face_model_points_3d is provided
+        # update the object variable and use
+        # the updated values.
+        if face_model_points_3d:
+            self.face_model_points_3d = face_model_points_3d
+        
         # Mediapipe points are normalized to [-1, 1].
         # Image points holds the landmark points in terms of
         # image coordinates
@@ -471,10 +513,11 @@ class Gazetimation:
         self,
         max_num_faces: int = 1,
         video_path: str = None,
-        smoothing=True,
-        smoothing_frame_range=8,
+        smoothing: bool =True,
+        smoothing_frame_range: int=8,
         smoothing_weight="uniform",
-        custom_smoothing_func=None,
+        custom_smoothing_func =None,
+        video_output_path: str = None
     ):
         """Runs the solution
 
@@ -486,8 +529,13 @@ class Gazetimation:
             smoothing (bool, optional): If smoothing should be performed. Defaults to True.
             smoothing_frame_range (int, optional): Number of frame to consider to perform smoothing.. Defaults to 8.
             smoothing_weight (str, optional): Type of weighting scheme ("uniform", "linear", "logarithmic"). Defaults to "uniform".
-            custom_smoothing_func (_type_, optional): Custom smoothing function. Defaults to None.
+            custom_smoothing_func (function, optional): Custom smoothing function. Defaults to None.
+            video_output_path (str, optional): Output path and format for output video.
         """
+        if video_output_path:
+            fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+            out = cv2.VideoWriter(video_output_path, fourcc, 20.0, (640,480))
+            
         if smoothing:
             self.gaze_data = None
             if not custom_smoothing_func:
@@ -500,6 +548,7 @@ class Gazetimation:
             cap = cv2.VideoCapture(video_path)
         else:
             cap = cv2.VideoCapture(self.device)  # chose camera index (try 1, 2, 3)
+            
         with mp_face_mesh.FaceMesh(
             max_num_faces=max_num_faces,  # number of faces to track in each frame
             refine_landmarks=True,  # includes iris landmarks in the face mesh model
@@ -553,20 +602,32 @@ class Gazetimation:
                         if self.visualize:
                             self.draw(frame, left_pupil, gaze_left_eye)
                             self.draw(frame, right_pupil, gaze_right_eye)
+                        if video_output_path:
+                            out.write(frame)
                 cv2.imshow("output window", frame)
                 if cv2.waitKey(2) & 0xFF == 27:
                     break
         cap.release()
+        out.release()
+        cv2.destroyAllWindows()
 
-    def draw(self, frame, left_pupil, gaze):
+    def draw(self, frame: np.ndarray, pupil: np.ndarray, gaze: np.ndarray):
+        """Draws the gaze direction onto the frame
+
+        Args:
+            frame (np.ndarray): The image.
+            pupil (np.ndarray): 2D pupil location on the image.
+            gaze (np.ndarray): Gaze direction.
+        """        
         # Draw gaze line into screen
-        p1 = (int(left_pupil[0]), int(left_pupil[1]))
+        p1 = (int(pupil[0]), int(pupil[1]))
         p2 = (int(gaze[0]), int(gaze[1]))
         cv2.line(frame, p1, p2, (0, 0, 255), 2)
 
         v1, v2 = self.calculate_arrowhead(p1, p2)
         cv2.line(frame, v1, p2, (0, 255, 0), 2)
         cv2.line(frame, v2, p2, (0, 255, 0), 2)
+        cv2.circle(frame, center=p1, radius=5, color=(0, 0, 255))
 
     def calculate_arrowhead(
         self,
@@ -615,4 +676,4 @@ class Gazetimation:
 #     ]
 # )
 # # print(g.get_face_num())
-# g.run(smoothing_weight='linear', smoothing_frame_range=8)
+# g.run(smoothing_weight='linear', smoothing_frame_range=8, video_output_path='out.avi')

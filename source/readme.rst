@@ -1,23 +1,29 @@
-Introduction
-^^^^^^^^^^^^^
+This package gives an out of the box solution for gaze estimation.
 
-This is simple sphinx documentation example.
+Installation
+------------
 
-Here, Explain the project objective and features:
+.. code-block::
 
-* Write bullet points here.
+    pip install gazetimation
 
-HEADING:
+Usage
+-----
+
+.. code-block:: python
+    :linenos:
+
+    from gazetimation import Gazetimation
+    gz = Gazetimation()
+    gz.run()
+
+
+A lot of customization can be done by passing parameters to `Gazetimation()` and `run()`.
+:py:class:`gazetimation.Gazetimation`, :py:meth:`gazetimation.Gazetimation.run`
+
+
+
+
+Acknowledgement
 ===============
-* If necessart mention some points here.
-
-
-REFERENCES:
-===============
-* `Google <https://www.google.com>`_ , search engine has been used throughout the project.
-*  Other kind of text ``Bold reference``.
-*  Bold **letters**.
-
-Author:
-========
-Author name and details.
+This package was inspired from the amazing `Medium post <https://medium.com/mlearning-ai/eye-gaze-estimation-using-a-webcam-in-100-lines-of-code-570d4683fe23>` by Amit Aflalo

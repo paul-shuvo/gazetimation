@@ -8,19 +8,22 @@ Welcome to the documentation!
 
 .. include:: readme.rst
 
-.. _INTRODUCTION::
 .. toctree::
-   :maxdepth: 1
-   :caption: Introduction
+   :caption: Introduction:
+   :maxdepth: 2
+   :titlesonly:
+   :hidden:
 
    readme
 
+.. _API:
 .. toctree::
-   :maxdepth: 1
-   :caption: Contents:
-
+   :caption: API
+   :maxdepth: 2
+   :titlesonly:
+   :hidden:
+   
    gazetimation
-   .. readme
 
 
 Indices and tables
