@@ -19,10 +19,10 @@ class Gazetimation:
 
         Args:
             face_model_points_3d (np.ndarray, optional): Predefine 3D reference points for face model. Defaults to None.
-            
+
                 .. note::
                     If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.
-                
+
                     .. code-block:: python
 
                         self._face_model_points_3d = np.array(
@@ -35,45 +35,45 @@ class Gazetimation:
                                 (28.9, -28.9, -24.1),  # Right mouth corner
                             ]
                         )
-                
+
             left_eye_ball_center (np.ndarray, optional): Predefine 3D reference points for left eye ball center. Defaults to None.
-            
+
                 .. note::
                     If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.
-                
+
                     .. code-block:: python
-                        
+
                         self._left_eye_ball_center = np.array([[29.05], [32.7], [-39.5]])
-            
+
             right_eye_ball_center (np.ndarray, optional): Predefine 3D reference points for right eye ball center. Defaults to None.
-            
+
                 .. note::
                     If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.
-                
+
                     .. code-block:: python
-                        
+
                         self._right_eye_ball_center = np.array([[-29.05], [32.7], [-39.5]])
-            
+
             camera_matrix (np.ndarray, optional): Camera matrix. Defaults to None.
-            
+
                 .. important::
                     | if not provided, the system tries to calculate the camera matrix using the :py:meth:`find_camera_matrix method <gazetimation.Gazetimation.find_camera_matrix>`.
                     | This calculated camera matrix is estimated from the width and height of the frame, it's not an exact solution.
-                        
+
             device (int, optional): Device index for the video device. Defaults to 0.
 
                 .. attention::
-                    if a negative device index is provided, the system tries to find the first available video device index using the :py:meth:`find_device method <gazetimation.Gazetimation.find_device>`. 
+                    if a negative device index is provided, the system tries to find the first available video device index using the :py:meth:`find_device method <gazetimation.Gazetimation.find_device>`.
                     So, if not sure, pass `device = -1`.
 
                     .. code-block:: python
-                    
+
                         if device < 0:
                             self._device = self.find_device()
                         else:
                             self._device = device
-                        
-            
+
+
             visualize (bool, optional): If visualize is true then it shows annotated images. Defaults to True.
         """
         if not face_model_points_3d:
@@ -315,7 +315,11 @@ class Gazetimation:
                 return len(results.detections)
 
     def calculate_head_eye_poses(
-        self, frame: np.ndarray, points: object, gaze_distance: int = 10, face_model_points_3d: np.ndarray=None
+        self,
+        frame: np.ndarray,
+        points: object,
+        gaze_distance: int = 10,
+        face_model_points_3d: np.ndarray = None,
     ) -> tuple:
         """Calculates the head and eye poses (gaze)
 
@@ -331,13 +335,13 @@ class Gazetimation:
         """
 
         frame_height, frame_width, _ = frame.shape
-        
+
         # If face_model_points_3d is provided
         # update the object variable and use
         # the updated values.
         if face_model_points_3d:
             self.face_model_points_3d = face_model_points_3d
-        
+
         # Mediapipe points are normalized to [-1, 1].
         # Image points holds the landmark points in terms of
         # image coordinates
@@ -476,53 +480,71 @@ class Gazetimation:
 
         Returns:
             tuple : Smoothed position of left_pupil, right_pupil, gaze_left_eye, gaze_right_eye
-        """        
+        """
         if not self.gaze_data:
             self.gaze_data = {
-                'left_pupil': np.tile(np.array(left_pupil), (smoothing_frame_range, 1)),
-                'right_pupil': np.tile(
+                "left_pupil": np.tile(np.array(left_pupil), (smoothing_frame_range, 1)),
+                "right_pupil": np.tile(
                     np.array(right_pupil), (smoothing_frame_range, 1)
                 ),
-                'gaze_left_eye': np.tile(
+                "gaze_left_eye": np.tile(
                     np.array(gaze_left_eye), (smoothing_frame_range, 1)
                 ),
-                'gaze_right_eye': np.tile(
+                "gaze_right_eye": np.tile(
                     np.array(gaze_right_eye), (smoothing_frame_range, 1)
                 ),
             }
-            if smoothing_weight == 'linear':
+            if smoothing_weight == "linear":
                 self.weight = np.arange(1, smoothing_frame_range + 1)
                 self.weight = self.weight / np.sum(self.weight)
-            elif smoothing_weight == 'logarithmic':
+            elif smoothing_weight == "logarithmic":
                 self.weight = np.logspace(0, 2.0, num=smoothing_frame_range)
                 self.weight = self.weight / np.sum(self.weight)
 
             return left_pupil, right_pupil, gaze_left_eye, gaze_right_eye
-        self.gaze_data['left_pupil'][1:] = self.gaze_data['left_pupil'][:-1]
-        self.gaze_data['left_pupil'][0] = left_pupil
+        self.gaze_data["left_pupil"][1:] = self.gaze_data["left_pupil"][:-1]
+        self.gaze_data["left_pupil"][0] = left_pupil
 
-        self.gaze_data['right_pupil'][1:] = self.gaze_data['right_pupil'][:-1]
+        self.gaze_data["right_pupil"][1:] = self.gaze_data["right_pupil"][:-1]
         self.gaze_data["right_pupil"][0] = right_pupil
 
-        self.gaze_data['gaze_left_eye'][1:] = self.gaze_data['gaze_left_eye'][:-1]
-        self.gaze_data['gaze_left_eye'][0] = gaze_left_eye
+        self.gaze_data["gaze_left_eye"][1:] = self.gaze_data["gaze_left_eye"][:-1]
+        self.gaze_data["gaze_left_eye"][0] = gaze_left_eye
 
-        self.gaze_data['gaze_right_eye'][1:] = self.gaze_data['gaze_right_eye'][:-1]
-        self.gaze_data['gaze_right_eye'][0] = gaze_right_eye
+        self.gaze_data["gaze_right_eye"][1:] = self.gaze_data["gaze_right_eye"][:-1]
+        self.gaze_data["gaze_right_eye"][0] = gaze_right_eye
 
         if smoothing_weight == "uniform":
             left_pupil_, right_pupil_, gaze_left_eye_, gaze_right_eye_ = (
-                np.mean(self.gaze_data['left_pupil'], axis=0),
-                np.mean(self.gaze_data['right_pupil'], axis=0),
-                np.mean(self.gaze_data['gaze_left_eye'], axis=0),
-                np.mean(self.gaze_data['gaze_right_eye'], axis=0),
+                np.mean(self.gaze_data["left_pupil"], axis=0),
+                np.mean(self.gaze_data["right_pupil"], axis=0),
+                np.mean(self.gaze_data["gaze_left_eye"], axis=0),
+                np.mean(self.gaze_data["gaze_right_eye"], axis=0),
             )
-        elif smoothing_weight == 'linear' or smoothing_weight == 'logarithmic':
+        elif smoothing_weight == "linear" or smoothing_weight == "logarithmic":
             left_pupil_, right_pupil_, gaze_left_eye_, gaze_right_eye_ = (
-                np.sum(np.einsum('ij, i -> ij', self.gaze_data['left_pupil'], self.weight), axis=0),
-                np.sum(np.einsum('ij, i -> ij', self.gaze_data['right_pupil'], self.weight), axis=0),
-                np.sum(np.einsum('ij, i -> ij', self.gaze_data['gaze_left_eye'], self.weight), axis=0),
-                np.sum(np.einsum('ij, i -> ij', self.gaze_data['gaze_right_eye'], self.weight), axis=0),
+                np.sum(
+                    np.einsum("ij, i -> ij", self.gaze_data["left_pupil"], self.weight),
+                    axis=0,
+                ),
+                np.sum(
+                    np.einsum(
+                        "ij, i -> ij", self.gaze_data["right_pupil"], self.weight
+                    ),
+                    axis=0,
+                ),
+                np.sum(
+                    np.einsum(
+                        "ij, i -> ij", self.gaze_data["gaze_left_eye"], self.weight
+                    ),
+                    axis=0,
+                ),
+                np.sum(
+                    np.einsum(
+                        "ij, i -> ij", self.gaze_data["gaze_right_eye"], self.weight
+                    ),
+                    axis=0,
+                ),
             )
 
         return left_pupil_, right_pupil_, gaze_left_eye_, gaze_right_eye_
@@ -531,11 +553,11 @@ class Gazetimation:
         self,
         max_num_faces: int = 1,
         video_path: str = None,
-        smoothing: bool =True,
-        smoothing_frame_range: int=8,
+        smoothing: bool = True,
+        smoothing_frame_range: int = 8,
         smoothing_weight="uniform",
-        custom_smoothing_func =None,
-        video_output_path: str = None
+        custom_smoothing_func=None,
+        video_output_path: str = None,
     ):
         """Runs the solution
 
@@ -549,9 +571,9 @@ class Gazetimation:
             video_output_path (str, optional): Output path and format for output video.
         """
         if video_output_path:
-            fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-            out = cv2.VideoWriter(video_output_path, fourcc, 20.0, (640,480))
-            
+            fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+            out = cv2.VideoWriter(video_output_path, fourcc, 20.0, (640, 480))
+
         if smoothing:
             self.gaze_data = None
             if not custom_smoothing_func:
@@ -564,7 +586,7 @@ class Gazetimation:
             cap = cv2.VideoCapture(video_path)
         else:
             cap = cv2.VideoCapture(self.device)  # chose camera index (try 1, 2, 3)
-            
+
         with mp_face_mesh.FaceMesh(
             max_num_faces=max_num_faces,  # number of faces to track in each frame
             refine_landmarks=True,  # includes iris landmarks in the face mesh model
@@ -634,7 +656,7 @@ class Gazetimation:
             frame (np.ndarray): The image.
             pupil (np.ndarray): 2D pupil location on the image.
             gaze (np.ndarray): Gaze direction.
-        """        
+        """
         # Draw gaze line into screen
         p1 = (int(pupil[0]), int(pupil[1]))
         p2 = (int(gaze[0]), int(gaze[1]))
