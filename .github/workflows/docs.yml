@@ -14,7 +14,7 @@ jobs:
  
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v2.2.1
@@ -27,28 +27,44 @@ jobs:
           python -m pip install furo
           # python -m pip install sphinxcontrib-apidoc
           python -m pip install sphinx-autoapi
-
-      - name: make the sphinx docs
-        run: |
-          make clean html
-          # sphinx-apidoc -f -o docs/source . -H Test -e -t docs/source/_templates
-          make html
-
-      - name: Init new repo in dist folder and commit generated files
-        run: |
-          cd docs/build/html/
-          git init
-          touch .nojekyll
-          git add -A
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit -m 'deploy'
-
-      - name: Force push to destination branch
-        uses: ad-m/github-push-action@v0.5.0
+      
+      - name: Build HTML
+        uses: ammaraskar/sphinx-action@master
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: html-docs
+          path: docs/build/html/
+      
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          force: true
-          directory: ./docs/build/html
+          publish_dir: docs/build/html
+
+      # - name: make the sphinx docs
+      #   run: |
+      #     make clean html
+      #     # sphinx-apidoc -f -o docs/source . -H Test -e -t docs/source/_templates
+      #     make html
+
+      # - name: Init new repo in dist folder and commit generated files
+      #   run: |
+      #     cd docs/build/html/
+      #     git init
+      #     touch .nojekyll
+      #     git add -A
+      #     git config --local user.email "action@github.com"
+      #     git config --local user.name "GitHub Action"
+      #     git commit -m 'deploy'
+
+      # - name: Force push to destination branch
+      #   uses: ad-m/github-push-action@v0.5.0
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     branch: gh-pages
+      #     force: true
+      #     directory: ./docs/build/html
 
