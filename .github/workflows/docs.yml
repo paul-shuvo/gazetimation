@@ -28,9 +28,6 @@ jobs:
           # python -m pip install sphinxcontrib-apidoc
           python -m pip install sphinx-autoapi
       
-      - name: Build HTML
-        uses: ammaraskar/sphinx-action@master
-      
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
