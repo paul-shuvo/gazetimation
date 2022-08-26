@@ -28,7 +28,7 @@ jobs:
           # python -m pip install sphinxcontrib-apidoc
           python -m pip install sphinx-autoapi
 
-      - name: make the sphinx docs
+      - name: Make the sphinx docs
         run: |
           make clean html
           # sphinx-apidoc -f -o docs/source . -H Test -e -t docs/source/_templates
