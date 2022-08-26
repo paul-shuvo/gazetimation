@@ -38,7 +38,7 @@ html_theme = 'furo'
 html_theme_options = {
     "sidebar_hide_name": True,
     "source_repository": "https://github.com/paul-shuvo/gazetimation/",
-    "source_branch": "dev",
-    "source_directory": "source/",
+    "source_branch": "main",
+    "source_directory": "docs/source/",
 }
 html_static_path = ['_static']
