@@ -211,8 +211,333 @@
           </label>
         </div>
         <article role="main">
-          <section id="gazetimation-module">
-<h1>gazetimation module<a class="headerlink" href="#gazetimation-module" title="Permalink to this heading">#</a></h1>
+          <section id="module-gazetimation">
+<span id="gazetimation-module"></span><h1>gazetimation module<a class="headerlink" href="#module-gazetimation" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gazetimation.</span></span><span class="sig-name descname"><span class="pre">Gazetimation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">face_model_points_3d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left_eye_ball_center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_eye_ball_center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">camera_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visualize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gazetimation.html#Gazetimation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gazetimation.Gazetimation" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Initialize the Gazetimation object.</p>
+<p>This holds the configurations of the Gazetimation class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>face_model_points_3d</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – <p>Predefine 3D reference points for face model. Defaults to None.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">_face_model_points_3d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>  <span class="c1"># Nose tip</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">12.5</span><span class="p">),</span>  <span class="c1"># Chin</span>
+        <span class="p">(</span><span class="o">-</span><span class="mf">43.3</span><span class="p">,</span> <span class="mf">32.7</span><span class="p">,</span> <span class="o">-</span><span class="mi">26</span><span class="p">),</span>  <span class="c1"># Left eye, left corner</span>
+        <span class="p">(</span><span class="mf">43.3</span><span class="p">,</span> <span class="mf">32.7</span><span class="p">,</span> <span class="o">-</span><span class="mi">26</span><span class="p">),</span>  <span class="c1"># Right eye, right corner</span>
+        <span class="p">(</span><span class="o">-</span><span class="mf">28.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">28.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">24.1</span><span class="p">),</span>  <span class="c1"># Left Mouth corner</span>
+        <span class="p">(</span><span class="mf">28.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">28.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">24.1</span><span class="p">),</span>  <span class="c1"># Right mouth corner</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</p></li>
+<li><p><strong>left_eye_ball_center</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – <p>Predefine 3D reference points for left eye ball center. Defaults to None.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">_left_eye_ball_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">29.05</span><span class="p">],</span> <span class="p">[</span><span class="mf">32.7</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">39.5</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+</p></li>
+<li><p><strong>right_eye_ball_center</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – <p>Predefine 3D reference points for right eye ball center. Defaults to None.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">_right_eye_ball_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">29.05</span><span class="p">],</span> <span class="p">[</span><span class="mf">32.7</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">39.5</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+</p></li>
+<li><p><strong>camera_matrix</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – <p>Camera matrix. Defaults to None.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<div class="line-block">
+<div class="line">if not provided, the system tries to calculate the camera matrix using the <a class="reference internal" href="#gazetimation.Gazetimation.find_camera_matrix" title="gazetimation.Gazetimation.find_camera_matrix"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_camera_matrix</span> <span class="pre">method</span></code></a>.</div>
+<div class="line">This calculated camera matrix is estimated from the width and height of the frame, it’s not an exact solution.</div>
+</div>
+</div>
+</p></li>
+<li><p><strong>device</strong> (<em>int</em><em>, </em><em>optional</em>) – <p>Device index for the video device. Defaults to 0.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>if a negative device index is provided, the system tries to find the first available video device index using the <a class="reference internal" href="#gazetimation.Gazetimation.find_device" title="gazetimation.Gazetimation.find_device"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_device</span> <span class="pre">method</span></code></a>.
+So, if not sure, pass <cite>device = -1</cite>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">device</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_device</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_device</span> <span class="o">=</span> <span class="n">device</span>
+</pre></div>
+</div>
+</div>
+</p></li>
+<li><p><strong>visualize</strong> (<em>bool</em><em>, </em><em>optional</em>) – If visualize is true then it shows annotated images. Defaults to True.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.calculate_arrowhead">
+<span class="sig-name descname"><span class="pre">calculate_arrowhead</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_coordinate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_coordinate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrow_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrow_angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">70</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/gazetimation.html#Gazetimation.calculate_arrowhead"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gazetimation.Gazetimation.calculate_arrowhead" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate the lines for arrowhead.</p>
+<p>For a given line, it calculates the arrowhead
+from the end (tip) of the line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_coordinate</strong> (<em>tuple</em>) – Start point of the line.</p></li>
+<li><p><strong>end_coordinate</strong> (<em>tuple</em>) – End point of the line.</p></li>
+<li><p><strong>arrow_length</strong> (<em>int</em><em>, </em><em>optional</em>) – Length of the arrowhead lines. Defaults to 15.</p></li>
+<li><p><strong>arrow_angle</strong> (<em>int</em><em>, </em><em>optional</em>) – Angle (degree) of the arrowhead lines with the arrow-line. Defaults to 70.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Endpoints in the image of the two arrowhead lines.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.calculate_head_eye_poses">
+<span class="sig-name descname"><span class="pre">calculate_head_eye_poses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaze_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">face_model_points_3d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/gazetimation.html#Gazetimation.calculate_head_eye_poses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gazetimation.Gazetimation.calculate_head_eye_poses" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculates the head and eye poses (gaze)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> (<em>np.ndarray</em>) – The image.</p></li>
+<li><p><strong>points</strong> (<em>object</em>) – Holds the facial landmarks points.</p></li>
+<li><p><strong>gaze_distance</strong> (<em>int</em><em>, </em><em>optional</em>) – Gaze distance. Defaults to 10.</p></li>
+<li><p><strong>face_model_points_3d</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Predefined 3D reference points for face model. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns two tuples (left and right eye) containing the pupil location and the projected gaze on the image plane.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.camera_matrix">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">camera_matrix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#gazetimation.Gazetimation.camera_matrix" title="Permalink to this definition">#</a></dt>
+<dd><p>Getter method for camera_matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The camera matrix.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.device">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#gazetimation.Gazetimation.device" title="Permalink to this definition">#</a></dt>
+<dd><p>Getter method for device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Index for the video device.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pupil</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaze</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gazetimation.html#Gazetimation.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gazetimation.Gazetimation.draw" title="Permalink to this definition">#</a></dt>
+<dd><p>Draws the gaze direction onto the frame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> (<em>np.ndarray</em>) – The image.</p></li>
+<li><p><strong>pupil</strong> (<em>np.ndarray</em>) – 2D pupil location on the image.</p></li>
+<li><p><strong>gaze</strong> (<em>np.ndarray</em>) – Gaze direction.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.face_model_points_3d">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">face_model_points_3d</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#gazetimation.Gazetimation.face_model_points_3d" title="Permalink to this definition">#</a></dt>
+<dd><p>Getter method for face_model_points_3d.
+:returns: 3D face model points.
+:rtype: np.ndarray</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.facial_landmark_index">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">facial_landmark_index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#gazetimation.Gazetimation.facial_landmark_index" title="Permalink to this definition">#</a></dt>
+<dd><p>Getter method for facial_landmark_index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Required facial landmark indexes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.find_camera_matrix">
+<span class="sig-name descname"><span class="pre">find_camera_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/gazetimation.html#Gazetimation.find_camera_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gazetimation.Gazetimation.find_camera_matrix" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculates the camera matrix from image dimensions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>frame</strong> (<em>np.ndarray</em>) – The image.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Camera matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.find_device">
+<span class="sig-name descname"><span class="pre">find_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_try</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/gazetimation.html#Gazetimation.find_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gazetimation.Gazetimation.find_device" title="Permalink to this definition">#</a></dt>
+<dd><p>Find the video device index.</p>
+<p>It tries to iterate over a number of system device
+and returns the first eligible device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>max_try</strong> (<em>int</em><em>, </em><em>optional</em>) – Max number of devices to try. Defaults to 10.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Index of the video device.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.find_face_num">
+<span class="sig-name descname"><span class="pre">find_face_num</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_try</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/gazetimation.html#Gazetimation.find_face_num"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gazetimation.Gazetimation.find_face_num" title="Permalink to this definition">#</a></dt>
+<dd><p>Finds number of faces/people present in the scene</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_try</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum number of frames to try. Defaults to 100.</p></li>
+<li><p><strong>video_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to the video file. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of faces/people present in the scene.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.left_eye_ball_center">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">left_eye_ball_center</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#gazetimation.Gazetimation.left_eye_ball_center" title="Permalink to this definition">#</a></dt>
+<dd><p>Getter method for left_eye_ball_center.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>3D points for left eye ball center.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.right_eye_ball_center">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">right_eye_ball_center</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#gazetimation.Gazetimation.right_eye_ball_center" title="Permalink to this definition">#</a></dt>
+<dd><p>Getter method for right_eye_ball_center.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>3D points for right eye ball center.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_num_faces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing_frame_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'uniform'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_smoothing_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video_output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gazetimation.html#Gazetimation.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gazetimation.Gazetimation.run" title="Permalink to this definition">#</a></dt>
+<dd><p>Runs the solution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_num_faces</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum number of face(s)/people present in the scene. Defaults to 1.</p></li>
+<li><p><strong>video_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to the video. Defaults to None.</p></li>
+<li><p><strong>smoothing</strong> (<em>bool</em><em>, </em><em>optional</em>) – If smoothing should be performed. Defaults to True.</p></li>
+<li><p><strong>smoothing_frame_range</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of frame to consider to perform smoothing.. Defaults to 8.</p></li>
+<li><p><strong>smoothing_weight</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of weighting scheme (“uniform”, “linear”, “logarithmic”). Defaults to “uniform”.</p></li>
+<li><p><strong>custom_smoothing_func</strong> (<em>function</em><em>, </em><em>optional</em>) – Custom smoothing function. Defaults to None.</p></li>
+<li><p><strong>video_output_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Output path and format for output video.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.smoothing">
+<span class="sig-name descname"><span class="pre">smoothing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smoothing_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing_frame_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left_pupil</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_pupil</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaze_left_eye</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaze_right_eye</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="_modules/gazetimation.html#Gazetimation.smoothing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gazetimation.Gazetimation.smoothing" title="Permalink to this definition">#</a></dt>
+<dd><p>Smoothing is performed so the result doesn’t have abrupt changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>smoothing_weight</strong> (<em>str</em>) – Type of smoothing.</p></li>
+<li><p><strong>smoothing_frame_range</strong> (<em>int</em>) – Number of frame to consider to perform smoothing.</p></li>
+<li><p><strong>left_pupil</strong> (<em>np.ndarray</em>) – Position of the left pupil.</p></li>
+<li><p><strong>right_pupil</strong> (<em>np.ndarray</em>) – Position of the right pupil.</p></li>
+<li><p><strong>gaze_left_eye</strong> (<em>np.ndarray</em>) – Position of the estimated gaze of left eye.</p></li>
+<li><p><strong>gaze_right_eye</strong> (<em>np.ndarray</em>) – Position of the estimated gaze of right eye.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Smoothed position of left_pupil, right_pupil, gaze_left_eye, gaze_right_eye</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="gazetimation.Gazetimation.visualize">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">visualize</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#gazetimation.Gazetimation.visualize" title="Permalink to this definition">#</a></dt>
+<dd><p>Getter method for visualize.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Whether to show annotated images.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
         </article>
