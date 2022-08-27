@@ -10,7 +10,8 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../../src"))
+_HERE = os.path.dirname(__file__)
+sys.path.insert(0, os.path.join(_HERE, '../../src'))
 
 project = "Gazetimation"
 copyright = "2022, Shuvo Kumar Paul"
