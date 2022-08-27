@@ -1,58 +1,106 @@
-name: publish_docs_pages
- 
-# execute this workflow automatically when a we push to master
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
+
 on:
+  # Runs on pushes targeting the default branch
   push:
-    branches: [ main ]
- 
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
- 
-  build_docs_job:
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
- 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
       - name: Set up Python
         uses: actions/setup-python@v2.2.1
         with:
           python-version: 3.9
  
-      # - name: Install dependencies
-      #   run: |
-      #     pip install sphinx
-      #     pip install furo
-      
-      # - name: make the sphinx docs
-      #   run: |
-      #     make clean html
-      #     # sphinx-apidoc -f -o docs/source . -H Test -e -t docs/source/_templates
-      #     make html
       - name: Install dependencies
         run: |
-          pip install sphinx furo
-      - name: Sphinx build
-        run: |
-          sphinx-build docs/source _build
-      
-      # - name: Deploy
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   if: github.ref == 'refs/heads/main'
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: docs/build/html
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          pip install sphinx
+          pip install furo
+          cd docs
+          make clean html
+          make html
+          cd ..
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          publish_branch: gh-pages
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _build/
-          force_orphan: true
+          # Upload entire repository
+          path: 'docs/build/html'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
+
+
+
+
+
+# name: publish_docs_pages
+ 
+# # execute this workflow automatically when a we push to master
+# on:
+#   push:
+#     branches: [ main ]
+ 
+# jobs:
+ 
+#   build_docs_job:
+#     runs-on: ubuntu-latest
+#     env:
+#       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+ 
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+
+#       - name: Set up Python
+#         uses: actions/setup-python@v2.2.1
+#         with:
+#           python-version: 3.9
+ 
+#       - name: Install dependencies
+#         run: |
+#           pip install sphinx
+#           pip install furo
+      
+#       - name: make the sphinx docs
+#         run: |
+#           cd docs
+#           make clean html
+#           # sphinx-apidoc -f -o docs/source . -H Test -e -t docs/source/_templates
+#           make html
+#           cd ..
+
+      
+#       - name: Deploy
+#         uses: peaceiris/actions-gh-pages@v3
+#         if: github.ref == 'refs/heads/main'
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/build/html
 
       # - name: make the sphinx docs
       #   run: |
