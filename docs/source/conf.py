@@ -11,8 +11,8 @@ import sys
 _HERE = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(_HERE, '../../src'))
 
-import gazetimation
-from gazetimation import Gazetimation
+# import gazetimation
+# from gazetimation import Gazetimation
 
 project = 'Gazetimation'
 copyright = '2022, Shuvo Paul'
