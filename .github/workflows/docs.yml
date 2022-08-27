@@ -1,37 +1,21 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
-
+name: publish_docs_pages
+ 
+# execute this workflow automatically when a we push to master
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow one concurrent deployment
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
+    branches: [ main ]
+ 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+ 
+  build_docs_job:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+ 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Pages
-        uses: actions/configure-pages@v2
+        uses: actions/checkout@v2.3.4
+
       - name: Set up Python
         uses: actions/setup-python@v2.2.1
         with:
@@ -39,90 +23,32 @@ jobs:
  
       - name: Install dependencies
         run: |
-          pip install sphinx
-          pip install furo
+          python -m pip install -U sphinx
+          python -m pip install furo
+
+      - name: make the sphinx docs
+        run: |
           cd docs
           make clean html
+          # sphinx-apidoc -f -o docs/source . -H Test -e -t docs/source/_templates
           make html
           cd ..
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+
+      - name: Init new repo in dist folder and commit generated files
+        run: |
+          cd docs/build/html/
+          git init
+          touch .nojekyll
+          git add -A
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m 'deploy'
+
+      - name: Force push to destination branch
+        uses: ad-m/github-push-action@v0.5.0
         with:
-          # Upload entire repository
-          path: 'docs/build/html'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
-
-
-
-
-
-# name: publish_docs_pages
- 
-# # execute this workflow automatically when a we push to master
-# on:
-#   push:
-#     branches: [ main ]
- 
-# jobs:
- 
-#   build_docs_job:
-#     runs-on: ubuntu-latest
-#     env:
-#       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
- 
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v3
-
-#       - name: Set up Python
-#         uses: actions/setup-python@v2.2.1
-#         with:
-#           python-version: 3.9
- 
-#       - name: Install dependencies
-#         run: |
-#           pip install sphinx
-#           pip install furo
-      
-#       - name: make the sphinx docs
-#         run: |
-#           cd docs
-#           make clean html
-#           # sphinx-apidoc -f -o docs/source . -H Test -e -t docs/source/_templates
-#           make html
-#           cd ..
-
-      
-#       - name: Deploy
-#         uses: peaceiris/actions-gh-pages@v3
-#         if: github.ref == 'refs/heads/main'
-#         with:
-#           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/build/html
-
-      # - name: make the sphinx docs
-      #   run: |
-      #     make clean html
-      #     # sphinx-apidoc -f -o docs/source . -H Test -e -t docs/source/_templates
-      #     make html
-
-      # - name: Init new repo in dist folder and commit generated files
-      #   run: |
-      #     cd docs/build/html/
-      #     git init
-      #     touch .nojekyll
-      #     git add -A
-      #     git config --local user.email "action@github.com"
-      #     git config --local user.name "GitHub Action"
-      #     git commit -m 'deploy'
-
-      # - name: Force push to destination branch
-      #   uses: ad-m/github-push-action@v0.5.0
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     branch: gh-pages
-      #     force: true
-      #     directory: ./docs/build/html
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          force: true
+          directory: ./docs/build/html
 
