@@ -19,8 +19,6 @@ jobs:
         cd docs
         pip install -r requirements.txt
         cd ..
-    - name: Build HTML
-      uses: ammaraskar/sphinx-action@master
     - name: Upload artifacts
       run: |
         cd docs
