@@ -5,18 +5,17 @@
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-
-# Path setup
 import os
 import sys
 
 _HERE = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(_HERE, '../../src'))
 
-project = "Gazetimation"
-copyright = "2022, Shuvo Kumar Paul"
-author = "Shuvo Kumar Paul"
-release = "1.0.0"
+project = 'Gazetimation'
+copyright = '2022, Shuvo Paul'
+author = 'Shuvo Paul'
+release = '0.0.1'
+
 html_logo = "assets/gazetimation_logo.png"
 html_favicon = "assets/favicon.ico"
 # -- General configuration ---------------------------------------------------
@@ -24,23 +23,20 @@ html_favicon = "assets/favicon.ico"
 
 extensions = ["sphinx.ext.autodoc", "sphinx.ext.napoleon", "sphinx.ext.viewcode"]
 
-templates_path = ["_templates"]
+templates_path = ['_templates']
 exclude_patterns = []
 autoclass_content = "both"
 
-# If true, the current module name will be prepended to all description
-# unit titles (such as .. function::).
-# add_module_names = False
 
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "furo"
+html_theme = 'furo'
 html_theme_options = {
     "sidebar_hide_name": True,
     "source_repository": "https://github.com/paul-shuvo/gazetimation/",
     "source_branch": "main",
     "source_directory": "docs/source/",
 }
-html_static_path = []
+html_static_path = ['_static']
