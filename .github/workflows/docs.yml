@@ -25,21 +25,12 @@ jobs:
         run: |
           pip install sphinx
           pip install furo
-          pip install sphinxcontrib-apidoc
-          pip install sphinx-autoapi
       
       - name: make the sphinx docs
         run: |
           make clean html
-          sphinx-apidoc -f -o docs/source/ src
           # sphinx-apidoc -f -o docs/source . -H Test -e -t docs/source/_templates
           make html
-      
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: html-docs
-          path: docs/build/html/
       
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
