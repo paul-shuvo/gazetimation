@@ -21,32 +21,17 @@ jobs:
         with:
           python-version: 3.9
  
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-          installer-parallel: true
-
-      #----------------------------------------------
-      #       load cached venv if cache exists
-      #----------------------------------------------
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v2
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
-      #----------------------------------------------
-      # install dependencies if cache does not exist
-      #----------------------------------------------
       - name: Install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --no-root
+        run: |
+          pip install sphinx
+          pip install furo
+          pip install sphinxcontrib-apidoc
+          pip install sphinx-autoapi
       
       - name: make the sphinx docs
         run: |
           make clean html
+          sphinx-apidoc -f -o docs/source/ src
           # sphinx-apidoc -f -o docs/source . -H Test -e -t docs/source/_templates
           make html
       
