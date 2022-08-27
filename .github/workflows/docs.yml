@@ -8,20 +8,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    # - name: Setup Python # Set Python version
-    #   uses: actions/setup-python@v4
-    #   with:
-    #     python-version: 3.9
-    # - name: install dependencies
-    #   run: pip install furo
+    - name: Setup Python # Set Python version
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+    - name: install dependencies
+      run: |
+        cd docs
+        pip install -r requirements.txt
+        cd ..
     - uses: actions/checkout@v3
     - name: Build HTML
       uses: ammaraskar/sphinx-action@master
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: html-docs
-        path: docs/build/html/
+      run: |
+        cd docs
+        make clean html
+        make html
+        cd ..
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/main'
