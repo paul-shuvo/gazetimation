@@ -13,7 +13,7 @@ import sys
 _HERE = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(_HERE, '../../src'))
 
-# import gazetimation
+import gazetimation
 
 project = "Gazetimation"
 copyright = "2022, Shuvo Kumar Paul"
