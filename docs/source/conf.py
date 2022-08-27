@@ -42,4 +42,4 @@ html_theme_options = {
     "source_branch": "main",
     "source_directory": "docs/source/",
 }
-html_static_path = ["_static"]
+html_static_path = []
