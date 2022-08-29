@@ -14,9 +14,23 @@ Usage
     :linenos:
 
     from gazetimation import Gazetimation
-    gz = Gazetimation()
+    gz = Gazetimation(device=0) # or any other device id
     gz.run()
 
+To run a video file
+
+.. code-block:: python
+
+    gz.run(video_path='path/to/video')
+
+To save as a video file
+
+.. code-block:: python
+
+    gz.run(video_output_path='path/to/video.avi')
+
+
+For more info check our `docs <https://paul-shuvo.github.io/gazetimation/>`__.
 
 The solution can be customized by passing parameters to the :py:class:`Gazetimation <gazetimation.Gazetimation>` constructor, and to the :py:meth:`run <gazetimation.Gazetimation.run>` method.
 

@@ -573,9 +573,7 @@ class Gazetimation:
             custom_smoothing_func (function, optional): Custom smoothing function. Defaults to None.
             video_output_path (str, optional): Output path and format for output video.
         """
-        if video_output_path:
-            fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-            out = cv2.VideoWriter(video_output_path, fourcc, 20.0, (640, 480))
+
 
         if smoothing:
             self.gaze_data = None
@@ -585,11 +583,18 @@ class Gazetimation:
                 smoothing_func = custom_smoothing_func
         mp_face_mesh = mp.solutions.face_mesh  # initialize the face mesh model
         assert self.device >= 0
+
         if video_path:
             cap = cv2.VideoCapture(video_path)
         else:
             # chose camera index (try 1, 2, 3)
             cap = cv2.VideoCapture(self.device)
+        
+        if video_output_path:
+            videoWidth = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+            videoHeight = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+            out = cv2.VideoWriter(video_output_path, fourcc, 20, (videoWidth, videoHeight))
 
         with mp_face_mesh.FaceMesh(
             max_num_faces=max_num_faces,  # number of faces to track in each frame
@@ -597,13 +602,17 @@ class Gazetimation:
             min_detection_confidence=0.5,
             min_tracking_confidence=0.5,
         ) as face_mesh:
+            # Check if camera or video opened successfully
+            if (cap.isOpened()== False):
+                print("Error opening video stream or file")
             while cap.isOpened():
                 success, frame = cap.read()
                 if self.camera_matrix is None:
                     self.camera_matrix = self.find_camera_matrix(frame)
                 if not success:  # no frame input
                     print("Ignoring empty camera frame.")
-                    continue
+                    break
+
                 # To improve performance, optionally mark the image as not writeable to
                 # pass by reference.
                 frame.flags.writeable = False
@@ -641,6 +650,8 @@ class Gazetimation:
                         except TypeError as error:
                             print(f"TypeError: {error}")
                             continue
+                        # cv2.imwrite("%03d.jpg" % count, frame)
+                        # count += 1
                         if self.visualize:
                             self.draw(frame, left_pupil, gaze_left_eye)
                             self.draw(frame, right_pupil, gaze_right_eye)
@@ -650,7 +661,8 @@ class Gazetimation:
                 if cv2.waitKey(2) & 0xFF == 27:
                     break
         cap.release()
-        out.release()
+        if video_output_path:
+            out.release()
         cv2.destroyAllWindows()
 
     def draw(self, frame: np.ndarray, pupil: np.ndarray, gaze: np.ndarray):

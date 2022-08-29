@@ -8,7 +8,6 @@
 
 <p>This package gives an out of the box solution for gaze estimation.
 
-
 </div>
 
 ## Installation
@@ -21,25 +20,33 @@ pip install gazetimation
 
 ```python
 from gazetimation import Gazetimation
-gz = Gazetimation()
+gz = Gazetimation(device=0) # or any other device id
 gz.run()
 ```
 
+To run a video file
+```python
+gz.run(video_path='path/to/video')
+```
 
-Issues
-------
+To save as a video file
+```python
+gz.run(video_output_path='path/to/video.avi')
+```
+
+For more info check our [docs](https://paul-shuvo.github.io/gazetimation/)
+
+## Issues
 
 If any issues are found, they can be reported
 [here](https://github.com/paul-shuvo/gazetimation/issues).
 
-License
--------
+## License
 
 This project is licensed under the
 [MIT](https://opensource.org/licenses/MIT) license.
 
-Acknowledgement
-===============
+### Acknowledgement
 
 This package was inspired from the amazing [Medium
 post](https://medium.com/mlearning-ai/eye-gaze-estimation-using-a-webcam-in-100-lines-of-code-570d4683fe23)

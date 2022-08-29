@@ -35,11 +35,11 @@ autoclass_content = "both"
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'sphinx_typo3_theme'
-# html_theme_options = {
-#     "sidebar_hide_name": True,
-#     "source_repository": "https://github.com/paul-shuvo/gazetimation/",
-#     "source_branch": "main",
-#     "source_directory": "docs/source/",
-# }
+html_theme = 'furo'
+html_theme_options = {
+    "sidebar_hide_name": True,
+    "source_repository": "https://github.com/paul-shuvo/gazetimation/",
+    "source_branch": "main",
+    "source_directory": "docs/source/",
+}
 html_static_path = ['_static']
