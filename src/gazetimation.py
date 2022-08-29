@@ -735,15 +735,3 @@ class Gazetimation:
                 arrow_angle))
 
         return (x1, y1), (x2, y2)
-
-
-g = Gazetimation(device=1)
-g.camera_matrix = np.array(
-    [
-        [1394.6027293299926, 0, 995.588675691456],
-        [0, 1394.6027293299926, 599.3212928484164],
-        [0, 0, 1],
-    ]
-)
-# print(g.get_face_num())
-g.run(smoothing_weight='linear', smoothing_frame_range=8)
