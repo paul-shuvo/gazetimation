@@ -305,8 +305,10 @@ class Gazetimation:
                     break
                 if try_ == max_try - 1:
                     return -1
-            # Convert the BGR image to RGB and process it with MediaPipe Face Detection.
-            results = face_detection.process(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+            # Convert the BGR image to RGB and process it with MediaPipe Face
+            # Detection.
+            results = face_detection.process(
+                cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
             # Draw face detections of each face.
             if not results.detections:
@@ -398,12 +400,13 @@ class Gazetimation:
             )
 
             # 3D gaze point (10 is arbitrary value denoting gaze distance)
-            gaze_point_3D = [
-                self.left_eye_ball_center
-                + (pupil_world_cord[0] - self.left_eye_ball_center) * gaze_distance,
-                self.right_eye_ball_center
-                + (pupil_world_cord[1] - self.right_eye_ball_center) * gaze_distance,
-            ]
+            gaze_point_3D = [self.left_eye_ball_center +
+                             (pupil_world_cord[0] -
+                              self.left_eye_ball_center) *
+                             gaze_distance, self.right_eye_ball_center +
+                             (pupil_world_cord[1] -
+                              self.right_eye_ball_center) *
+                             gaze_distance, ]
 
             # Project a 3D gaze direction onto the image plane.
             gaze_direction_left_eye, _ = cv2.projectPoints(
@@ -585,7 +588,8 @@ class Gazetimation:
         if video_path:
             cap = cv2.VideoCapture(video_path)
         else:
-            cap = cv2.VideoCapture(self.device)  # chose camera index (try 1, 2, 3)
+            # chose camera index (try 1, 2, 3)
+            cap = cv2.VideoCapture(self.device)
 
         with mp_face_mesh.FaceMesh(
             max_num_faces=max_num_faces,  # number of faces to track in each frame
@@ -663,7 +667,15 @@ class Gazetimation:
         cv2.line(frame, p1, p2, (0, 0, 255), 2)
 
         v1, v2 = self.calculate_arrowhead(p1, p2)
-        cv2.circle(frame, center=p1, radius=6, color=(173, 68, 142), thickness=2)
+        cv2.circle(
+            frame,
+            center=p1,
+            radius=6,
+            color=(
+                173,
+                68,
+                142),
+            thickness=2)
         cv2.line(frame, v1, p2, (0, 255, 0), 2)
         cv2.line(frame, v2, p2, (0, 255, 0), 2)
 
@@ -697,10 +709,30 @@ class Gazetimation:
         )
         arrow_length = 15
 
-        x1 = int(end_coordinate[0] + arrow_length * np.cos(angle - arrow_angle))
-        y1 = int(end_coordinate[1] + arrow_length * np.sin(angle - arrow_angle))
-        x2 = int(end_coordinate[0] + arrow_length * np.cos(angle + arrow_angle))
-        y2 = int(end_coordinate[1] + arrow_length * np.sin(angle + arrow_angle))
+        x1 = int(
+            end_coordinate[0] +
+            arrow_length *
+            np.cos(
+                angle -
+                arrow_angle))
+        y1 = int(
+            end_coordinate[1] +
+            arrow_length *
+            np.sin(
+                angle -
+                arrow_angle))
+        x2 = int(
+            end_coordinate[0] +
+            arrow_length *
+            np.cos(
+                angle +
+                arrow_angle))
+        y2 = int(
+            end_coordinate[1] +
+            arrow_length *
+            np.sin(
+                angle +
+                arrow_angle))
 
         return (x1, y1), (x2, y2)
 

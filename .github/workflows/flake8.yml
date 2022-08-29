@@ -1,0 +1,15 @@
+name: flake8
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python # Set Python version
+        uses: actions/setup-python@v4
+      - name: Install dependencies
+        run: pip install flake8
+      - name: Run flake8 test
+        run: flake8 src/gazetimation.py

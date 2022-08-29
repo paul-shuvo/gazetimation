@@ -27,6 +27,7 @@ Sphinx = "^5.1.1"
 furo = "^2022.6.21"
 sphinx-autobuild = "^2021.3.14"
 sphinx-typo3-theme = "4.7.5"
+flake8 = "^5.0.4"
 
 [tool.poetry.scripts]
 
