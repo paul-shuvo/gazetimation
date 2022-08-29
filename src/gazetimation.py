@@ -561,6 +561,7 @@ class Gazetimation:
         smoothing_weight="uniform",
         custom_smoothing_func=None,
         video_output_path: str = None,
+        handler = None
     ):
         """Runs the solution
 
@@ -572,6 +573,15 @@ class Gazetimation:
             smoothing_weight (str, optional): Type of weighting scheme ("uniform", "linear", "logarithmic"). Defaults to "uniform".
             custom_smoothing_func (function, optional): Custom smoothing function. Defaults to None.
             video_output_path (str, optional): Output path and format for output video.
+            handler (function, optional): If provided the output is passed to the handler function for further processing.
+
+                .. attention::
+                    The handler will be called by passing the frame and the gaze information as shown below
+                    
+                    .. code-block:: python
+                    
+                        if handler is not None:
+                            handler([frame, left_pupil, right_pupil, gaze_left_eye, gaze_right_eye])
         """
 
 
@@ -655,6 +665,8 @@ class Gazetimation:
                         if self.visualize:
                             self.draw(frame, left_pupil, gaze_left_eye)
                             self.draw(frame, right_pupil, gaze_right_eye)
+                        if handler is not None:
+                            handler([frame, left_pupil, right_pupil, gaze_left_eye, gaze_right_eye])
                         if video_output_path:
                             out.write(frame)
                 cv2.imshow("output window", frame)
