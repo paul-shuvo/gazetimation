@@ -225,81 +225,9 @@
 <span class="linenos">3</span><span class="n">gz</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The solution can be customized by passing parameters to the <a class="reference internal" href="gazetimation.html#gazetimation.Gazetimation" title="gazetimation.Gazetimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gazetimation</span></code></a> constructor, and to the <a class="reference internal" href="gazetimation.html#gazetimation.Gazetimation.run" title="gazetimation.Gazetimation.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run</span></code></a> method.</p>
+<p>The solution can be customized by passing parameters to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Gazetimation</span></code> constructor, and to the <code class="xref py py-meth docutils literal notranslate"><span class="pre">run</span></code> method.</p>
 <section id="let-s-take-a-look-at-the-gazetimation-constructor">
-<h2>Let’s take a look at the <a class="reference internal" href="gazetimation.html#gazetimation.Gazetimation" title="gazetimation.Gazetimation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gazetimation</span></code></a> constructor.<a class="headerlink" href="#let-s-take-a-look-at-the-gazetimation-constructor" title="Permalink to this heading">#</a></h2>
-<dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">gazetimation.Gazetimation.</span></span><span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">face_model_points_3d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left_eye_ball_center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_eye_ball_center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">camera_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visualize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
-<dd><p>Initialize the Gazetimation object.</p>
-<p>This holds the configurations of the Gazetimation class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>face_model_points_3d</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – <p>Predefine 3D reference points for face model. Defaults to None.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">_face_model_points_3d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>  <span class="c1"># Nose tip</span>
-        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">12.5</span><span class="p">),</span>  <span class="c1"># Chin</span>
-        <span class="p">(</span><span class="o">-</span><span class="mf">43.3</span><span class="p">,</span> <span class="mf">32.7</span><span class="p">,</span> <span class="o">-</span><span class="mi">26</span><span class="p">),</span>  <span class="c1"># Left eye, left corner</span>
-        <span class="p">(</span><span class="mf">43.3</span><span class="p">,</span> <span class="mf">32.7</span><span class="p">,</span> <span class="o">-</span><span class="mi">26</span><span class="p">),</span>  <span class="c1"># Right eye, right corner</span>
-        <span class="p">(</span><span class="o">-</span><span class="mf">28.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">28.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">24.1</span><span class="p">),</span>  <span class="c1"># Left Mouth corner</span>
-        <span class="p">(</span><span class="mf">28.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">28.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">24.1</span><span class="p">),</span>  <span class="c1"># Right mouth corner</span>
-    <span class="p">]</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</p></li>
-<li><p><strong>left_eye_ball_center</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – <p>Predefine 3D reference points for left eye ball center. Defaults to None.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">_left_eye_ball_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">29.05</span><span class="p">],</span> <span class="p">[</span><span class="mf">32.7</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">39.5</span><span class="p">]])</span>
-</pre></div>
-</div>
-</div>
-</p></li>
-<li><p><strong>right_eye_ball_center</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – <p>Predefine 3D reference points for right eye ball center. Defaults to None.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">_right_eye_ball_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">29.05</span><span class="p">],</span> <span class="p">[</span><span class="mf">32.7</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">39.5</span><span class="p">]])</span>
-</pre></div>
-</div>
-</div>
-</p></li>
-<li><p><strong>camera_matrix</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – <p>Camera matrix. Defaults to None.</p>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<div class="line-block">
-<div class="line">if not provided, the system tries to calculate the camera matrix using the <a class="reference internal" href="gazetimation.html#gazetimation.Gazetimation.find_camera_matrix" title="gazetimation.Gazetimation.find_camera_matrix"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_camera_matrix</span> <span class="pre">method</span></code></a>.</div>
-<div class="line">This calculated camera matrix is estimated from the width and height of the frame, it’s not an exact solution.</div>
-</div>
-</div>
-</p></li>
-<li><p><strong>device</strong> (<em>int</em><em>, </em><em>optional</em>) – <p>Device index for the video device. Defaults to 0.</p>
-<div class="admonition attention">
-<p class="admonition-title">Attention</p>
-<p>if a negative device index is provided, the system tries to find the first available video device index using the <a class="reference internal" href="gazetimation.html#gazetimation.Gazetimation.find_device" title="gazetimation.Gazetimation.find_device"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_device</span> <span class="pre">method</span></code></a>.
-So, if not sure, pass <cite>device = -1</cite>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">device</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_device</span><span class="p">()</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_device</span> <span class="o">=</span> <span class="n">device</span>
-</pre></div>
-</div>
-</div>
-</p></li>
-<li><p><strong>visualize</strong> (<em>bool</em><em>, </em><em>optional</em>) – If visualize is true then it shows annotated images. Defaults to True.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
+<h2>Let’s take a look at the <code class="xref py py-class docutils literal notranslate"><span class="pre">Gazetimation</span></code> constructor.<a class="headerlink" href="#let-s-take-a-look-at-the-gazetimation-constructor" title="Permalink to this heading">#</a></h2>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <div class="line-block">
@@ -309,29 +237,10 @@ So, if not sure, pass <cite>device = -1</cite>.</p>
 </div>
 </section>
 <section id="let-s-go-through-the-run-method">
-<h2>Let’s go through the <a class="reference internal" href="gazetimation.html#gazetimation.Gazetimation.run" title="gazetimation.Gazetimation.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run</span> <span class="pre">method</span></code></a>.<a class="headerlink" href="#let-s-go-through-the-run-method" title="Permalink to this heading">#</a></h2>
-<dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">gazetimation.Gazetimation.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_num_faces</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing_frame_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothing_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'uniform'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_smoothing_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video_output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Runs the solution</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>max_num_faces</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum number of face(s)/people present in the scene. Defaults to 1.</p></li>
-<li><p><strong>video_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to the video. Defaults to None.</p></li>
-<li><p><strong>smoothing</strong> (<em>bool</em><em>, </em><em>optional</em>) – If smoothing should be performed. Defaults to True.</p></li>
-<li><p><strong>smoothing_frame_range</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of frame to consider to perform smoothing.. Defaults to 8.</p></li>
-<li><p><strong>smoothing_weight</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of weighting scheme (“uniform”, “linear”, “logarithmic”). Defaults to “uniform”.</p></li>
-<li><p><strong>custom_smoothing_func</strong> (<em>function</em><em>, </em><em>optional</em>) – Custom smoothing function. Defaults to None.</p></li>
-<li><p><strong>video_output_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Output path and format for output video.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
+<h2>Let’s go through the <code class="xref py py-meth docutils literal notranslate"><span class="pre">run</span> <span class="pre">method</span></code>.<a class="headerlink" href="#let-s-go-through-the-run-method" title="Permalink to this heading">#</a></h2>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>If you’re not sure about how many people (faces) are present in the scene you can use the <a class="reference internal" href="gazetimation.html#gazetimation.Gazetimation.find_face_num" title="gazetimation.Gazetimation.find_face_num"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_face_num</span></code></a> method.</p>
+<p>If you’re not sure about how many people (faces) are present in the scene you can use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">find_face_num</span></code> method.</p>
 </div>
 </section>
 <section id="issues">
