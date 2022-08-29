@@ -159,7 +159,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../readme.html#usage">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../readme.html#acknowledgement">Acknowledgement</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul>
@@ -765,6 +764,7 @@
         <span class="n">smoothing_weight</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
         <span class="n">custom_smoothing_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">video_output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">handler</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Runs the solution</span>
 
@@ -776,6 +776,15 @@
 <span class="sd">            smoothing_weight (str, optional): Type of weighting scheme (&quot;uniform&quot;, &quot;linear&quot;, &quot;logarithmic&quot;). Defaults to &quot;uniform&quot;.</span>
 <span class="sd">            custom_smoothing_func (function, optional): Custom smoothing function. Defaults to None.</span>
 <span class="sd">            video_output_path (str, optional): Output path and format for output video.</span>
+<span class="sd">            handler (function, optional): If provided the output is passed to the handler function for further processing.</span>
+
+<span class="sd">                .. attention::</span>
+<span class="sd">                    The handler will be called by passing the frame and the gaze information as shown below</span>
+<span class="sd">                    </span>
+<span class="sd">                    .. code-block:: python</span>
+<span class="sd">                    </span>
+<span class="sd">                        if handler is not None:</span>
+<span class="sd">                            handler([frame, left_pupil, right_pupil, gaze_left_eye, gaze_right_eye])</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
 
@@ -859,6 +868,8 @@
                         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">visualize</span><span class="p">:</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">left_pupil</span><span class="p">,</span> <span class="n">gaze_left_eye</span><span class="p">)</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">right_pupil</span><span class="p">,</span> <span class="n">gaze_right_eye</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">handler</span><span class="p">([</span><span class="n">frame</span><span class="p">,</span> <span class="n">left_pupil</span><span class="p">,</span> <span class="n">right_pupil</span><span class="p">,</span> <span class="n">gaze_left_eye</span><span class="p">,</span> <span class="n">gaze_right_eye</span><span class="p">])</span>
                         <span class="k">if</span> <span class="n">video_output_path</span><span class="p">:</span>
                             <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
                 <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&quot;output window&quot;</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
