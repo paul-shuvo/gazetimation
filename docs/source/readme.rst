@@ -1,4 +1,8 @@
-**Gazetimation** provides an out of the box solution for gaze estimation.
+.. |github| image:: https://avatars.githubusercontent.com/in/15368?s=64&v=4
+    :target: <https://github.com/paul-shuvo/gazetimation
+    :width: 17px
+
+**Gazetimation** provides an out of the box solution for gaze estimation. |github|
 
 .. image:: https://media4.giphy.com/media/7B7Hhz6w2TCBQikqoL/giphy.gif?cid=790b76112cc0a01f4cc4de64efea7cf5f8c9c0f898ceb1a0&rid=giphy.gif&ct=g
    :width: 600px
