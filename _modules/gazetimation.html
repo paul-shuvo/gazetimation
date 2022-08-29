@@ -509,8 +509,10 @@
                     <span class="k">break</span>
                 <span class="k">if</span> <span class="n">try_</span> <span class="o">==</span> <span class="n">max_try</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
-            <span class="c1"># Convert the BGR image to RGB and process it with MediaPipe Face Detection.</span>
-            <span class="n">results</span> <span class="o">=</span> <span class="n">face_detection</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+            <span class="c1"># Convert the BGR image to RGB and process it with MediaPipe Face</span>
+            <span class="c1"># Detection.</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">face_detection</span><span class="o">.</span><span class="n">process</span><span class="p">(</span>
+                <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
 
             <span class="c1"># Draw face detections of each face.</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span><span class="o">.</span><span class="n">detections</span><span class="p">:</span>
@@ -602,12 +604,13 @@
             <span class="p">)</span>
 
             <span class="c1"># 3D gaze point (10 is arbitrary value denoting gaze distance)</span>
-            <span class="n">gaze_point_3D</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">left_eye_ball_center</span>
-                <span class="o">+</span> <span class="p">(</span><span class="n">pupil_world_cord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">left_eye_ball_center</span><span class="p">)</span> <span class="o">*</span> <span class="n">gaze_distance</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">right_eye_ball_center</span>
-                <span class="o">+</span> <span class="p">(</span><span class="n">pupil_world_cord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">right_eye_ball_center</span><span class="p">)</span> <span class="o">*</span> <span class="n">gaze_distance</span><span class="p">,</span>
-            <span class="p">]</span>
+            <span class="n">gaze_point_3D</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">left_eye_ball_center</span> <span class="o">+</span>
+                             <span class="p">(</span><span class="n">pupil_world_cord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">left_eye_ball_center</span><span class="p">)</span> <span class="o">*</span>
+                             <span class="n">gaze_distance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">right_eye_ball_center</span> <span class="o">+</span>
+                             <span class="p">(</span><span class="n">pupil_world_cord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">right_eye_ball_center</span><span class="p">)</span> <span class="o">*</span>
+                             <span class="n">gaze_distance</span><span class="p">,</span> <span class="p">]</span>
 
             <span class="c1"># Project a 3D gaze direction onto the image plane.</span>
             <span class="n">gaze_direction_left_eye</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">projectPoints</span><span class="p">(</span>
@@ -789,7 +792,8 @@
         <span class="k">if</span> <span class="n">video_path</span><span class="p">:</span>
             <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">video_path</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>  <span class="c1"># chose camera index (try 1, 2, 3)</span>
+            <span class="c1"># chose camera index (try 1, 2, 3)</span>
+            <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="n">mp_face_mesh</span><span class="o">.</span><span class="n">FaceMesh</span><span class="p">(</span>
             <span class="n">max_num_faces</span><span class="o">=</span><span class="n">max_num_faces</span><span class="p">,</span>  <span class="c1"># number of faces to track in each frame</span>
@@ -867,7 +871,15 @@
         <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
 
         <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_arrowhead</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
-        <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">p1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">173</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">142</span><span class="p">),</span> <span class="n">thickness</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span>
+            <span class="n">frame</span><span class="p">,</span>
+            <span class="n">center</span><span class="o">=</span><span class="n">p1</span><span class="p">,</span>
+            <span class="n">radius</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="p">(</span>
+                <span class="mi">173</span><span class="p">,</span>
+                <span class="mi">68</span><span class="p">,</span>
+                <span class="mi">142</span><span class="p">),</span>
+            <span class="n">thickness</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span></div>
 
@@ -901,10 +913,30 @@
         <span class="p">)</span>
         <span class="n">arrow_length</span> <span class="o">=</span> <span class="mi">15</span>
 
-        <span class="n">x1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end_coordinate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">arrow_length</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span> <span class="o">-</span> <span class="n">arrow_angle</span><span class="p">))</span>
-        <span class="n">y1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end_coordinate</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">arrow_length</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span> <span class="o">-</span> <span class="n">arrow_angle</span><span class="p">))</span>
-        <span class="n">x2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end_coordinate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">arrow_length</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span> <span class="o">+</span> <span class="n">arrow_angle</span><span class="p">))</span>
-        <span class="n">y2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end_coordinate</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">arrow_length</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span> <span class="o">+</span> <span class="n">arrow_angle</span><span class="p">))</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">end_coordinate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span>
+            <span class="n">arrow_length</span> <span class="o">*</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span>
+                <span class="n">angle</span> <span class="o">-</span>
+                <span class="n">arrow_angle</span><span class="p">))</span>
+        <span class="n">y1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">end_coordinate</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
+            <span class="n">arrow_length</span> <span class="o">*</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span>
+                <span class="n">angle</span> <span class="o">-</span>
+                <span class="n">arrow_angle</span><span class="p">))</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">end_coordinate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span>
+            <span class="n">arrow_length</span> <span class="o">*</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span>
+                <span class="n">angle</span> <span class="o">+</span>
+                <span class="n">arrow_angle</span><span class="p">))</span>
+        <span class="n">y2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">end_coordinate</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
+            <span class="n">arrow_length</span> <span class="o">*</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span>
+                <span class="n">angle</span> <span class="o">+</span>
+                <span class="n">arrow_angle</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span></div></div>
 
