@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gazetimation"
-version = "0.2.0-beta"
+version = "0.2.1-beta"
 description = "Gaze estimation from facial landmarks"
 authors = ["Shuvo Kumar Paul <shuvo.k.paul@gmail.com>"]
 license = "MIT"
