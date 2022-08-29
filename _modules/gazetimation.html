@@ -1,0 +1,983 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
+
+    <link rel="shortcut icon" href="../_static/favicon.ico"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
+        <title>gazetimation - Gazetimation 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Gazetimation 0.0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/gazetimation_logo.png" alt="Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Introduction:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#usage">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html#acknowledgement">Acknowledgement</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gazetimation.html">gazetimation module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Index</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for gazetimation</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">mediapipe</span> <span class="k">as</span> <span class="nn">mp</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="Gazetimation"><a class="viewcode-back" href="../gazetimation.html#gazetimation.Gazetimation">[docs]</a><span class="k">class</span> <span class="nc">Gazetimation</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">face_model_points_3d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">left_eye_ball_center</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">right_eye_ball_center</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">camera_matrix</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">device</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">visualize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the Gazetimation object.</span>
+
+<span class="sd">        This holds the configurations of the Gazetimation class.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            face_model_points_3d (np.ndarray, optional): Predefine 3D reference points for face model. Defaults to None.</span>
+
+<span class="sd">                .. note::</span>
+<span class="sd">                    If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.</span>
+
+<span class="sd">                    .. code-block:: python</span>
+
+<span class="sd">                        self._face_model_points_3d = np.array(</span>
+<span class="sd">                            [</span>
+<span class="sd">                                (0.0, 0.0, 0.0),  # Nose tip</span>
+<span class="sd">                                (0, -63.6, -12.5),  # Chin</span>
+<span class="sd">                                (-43.3, 32.7, -26),  # Left eye, left corner</span>
+<span class="sd">                                (43.3, 32.7, -26),  # Right eye, right corner</span>
+<span class="sd">                                (-28.9, -28.9, -24.1),  # Left Mouth corner</span>
+<span class="sd">                                (28.9, -28.9, -24.1),  # Right mouth corner</span>
+<span class="sd">                            ]</span>
+<span class="sd">                        )</span>
+
+<span class="sd">            left_eye_ball_center (np.ndarray, optional): Predefine 3D reference points for left eye ball center. Defaults to None.</span>
+
+<span class="sd">                .. note::</span>
+<span class="sd">                    If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.</span>
+
+<span class="sd">                    .. code-block:: python</span>
+
+<span class="sd">                        self._left_eye_ball_center = np.array([[29.05], [32.7], [-39.5]])</span>
+
+<span class="sd">            right_eye_ball_center (np.ndarray, optional): Predefine 3D reference points for right eye ball center. Defaults to None.</span>
+
+<span class="sd">                .. note::</span>
+<span class="sd">                    If not provided, it will be assigned the following values. And, the passed values should conform to the same facial points.</span>
+
+<span class="sd">                    .. code-block:: python</span>
+
+<span class="sd">                        self._right_eye_ball_center = np.array([[-29.05], [32.7], [-39.5]])</span>
+
+<span class="sd">            camera_matrix (np.ndarray, optional): Camera matrix. Defaults to None.</span>
+
+<span class="sd">                .. important::</span>
+<span class="sd">                    | if not provided, the system tries to calculate the camera matrix using the :py:meth:`find_camera_matrix method &lt;gazetimation.Gazetimation.find_camera_matrix&gt;`.</span>
+<span class="sd">                    | This calculated camera matrix is estimated from the width and height of the frame, it&#39;s not an exact solution.</span>
+
+<span class="sd">            device (int, optional): Device index for the video device. Defaults to 0.</span>
+
+<span class="sd">                .. attention::</span>
+<span class="sd">                    if a negative device index is provided, the system tries to find the first available video device index using the :py:meth:`find_device method &lt;gazetimation.Gazetimation.find_device&gt;`.</span>
+<span class="sd">                    So, if not sure, pass `device = -1`.</span>
+
+<span class="sd">                    .. code-block:: python</span>
+
+<span class="sd">                        if device &lt; 0:</span>
+<span class="sd">                            self._device = self.find_device()</span>
+<span class="sd">                        else:</span>
+<span class="sd">                            self._device = device</span>
+
+
+<span class="sd">            visualize (bool, optional): If visualize is true then it shows annotated images. Defaults to True.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">face_model_points_3d</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_face_model_points_3d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>  <span class="c1"># Nose tip</span>
+                    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">63.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">12.5</span><span class="p">),</span>  <span class="c1"># Chin</span>
+                    <span class="p">(</span><span class="o">-</span><span class="mf">43.3</span><span class="p">,</span> <span class="mf">32.7</span><span class="p">,</span> <span class="o">-</span><span class="mi">26</span><span class="p">),</span>  <span class="c1"># Left eye, left corner</span>
+                    <span class="p">(</span><span class="mf">43.3</span><span class="p">,</span> <span class="mf">32.7</span><span class="p">,</span> <span class="o">-</span><span class="mi">26</span><span class="p">),</span>  <span class="c1"># Right eye, right corner</span>
+                    <span class="p">(</span><span class="o">-</span><span class="mf">28.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">28.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">24.1</span><span class="p">),</span>  <span class="c1"># Left Mouth corner</span>
+                    <span class="p">(</span><span class="mf">28.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">28.9</span><span class="p">,</span> <span class="o">-</span><span class="mf">24.1</span><span class="p">),</span>  <span class="c1"># Right mouth corner</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_face_model_points_3d</span> <span class="o">=</span> <span class="n">face_model_points_3d</span>
+
+        <span class="c1"># 3D model eye points</span>
+        <span class="c1"># The center of the eye ball</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">left_eye_ball_center</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_left_eye_ball_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">29.05</span><span class="p">],</span> <span class="p">[</span><span class="mf">32.7</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">39.5</span><span class="p">]])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_left_eye_ball_center</span> <span class="o">=</span> <span class="n">left_eye_ball_center</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">right_eye_ball_center</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_right_eye_ball_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">29.05</span><span class="p">],</span> <span class="p">[</span><span class="mf">32.7</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">39.5</span><span class="p">]])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_right_eye_ball_center</span> <span class="o">=</span> <span class="n">right_eye_ball_center</span>
+
+        <span class="c1"># Nose tip -&gt; 4</span>
+        <span class="c1"># Chin -&gt; 152</span>
+        <span class="c1"># Left eye left corner -&gt; 263</span>
+        <span class="c1"># Right eye right corner -&gt; 33</span>
+        <span class="c1"># Left Mouth corner -&gt; 287</span>
+        <span class="c1"># Right mouth corner -&gt; 57</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_facial_landmark_index</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">152</span><span class="p">,</span> <span class="mi">263</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">287</span><span class="p">,</span> <span class="mi">57</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_camera_matrix</span> <span class="o">=</span> <span class="n">camera_matrix</span>
+        <span class="k">if</span> <span class="n">device</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_device</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_device</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_device</span> <span class="o">=</span> <span class="n">device</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_visualize</span> <span class="o">=</span> <span class="n">visualize</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">face_model_points_3d</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Getter method for face_model_points_3d.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: 3D face model points.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_face_model_points_3d</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">left_eye_ball_center</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Getter method for left_eye_ball_center.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: 3D points for left eye ball center.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_left_eye_ball_center</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">right_eye_ball_center</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Getter method for right_eye_ball_center.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: 3D points for right eye ball center.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_right_eye_ball_center</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">facial_landmark_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Getter method for facial_landmark_index.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: Required facial landmark indexes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_facial_landmark_index</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">camera_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Getter method for camera_matrix.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: The camera matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera_matrix</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">device</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Getter method for device.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: Index for the video device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">visualize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Getter method for visualize.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: Whether to show annotated images.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_visualize</span>
+
+    <span class="nd">@face_model_points_3d</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">face_model_points_3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setter method for face_model_points_3d.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (np.ndarray): New/updated value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_face_model_points_3d</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@left_eye_ball_center</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">left_eye_ball_center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setter method for left_eye_ball_center.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (np.ndarray): New/updated value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_left_eye_ball_center</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@right_eye_ball_center</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">right_eye_ball_center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setter method for right_eye_ball_center.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (np.ndarray): New/updated value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_right_eye_ball_center</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@facial_landmark_index</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">facial_landmark_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setter method for facial_landmark_index.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (list): New/updated value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_facial_landmark_index</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@camera_matrix</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">camera_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setter method for camera_matrix.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (np.ndarray): New/updated value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_camera_matrix</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@device</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setter method for device.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (int): New/updated value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@visualize</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">visualize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setter method for visualize.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (bool): New/updated value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_visualize</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="Gazetimation.find_device"><a class="viewcode-back" href="../gazetimation.html#gazetimation.Gazetimation.find_device">[docs]</a>    <span class="k">def</span> <span class="nf">find_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_try</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Find the video device index.</span>
+
+<span class="sd">        It tries to iterate over a number of system device</span>
+<span class="sd">        and returns the first eligible device.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            max_try (int, optional): Max number of devices to try. Defaults to 10.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: Index of the video device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_try</span><span class="p">):</span>
+            <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="k">while</span> <span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+                <span class="n">success</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">device</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
+
+<div class="viewcode-block" id="Gazetimation.find_camera_matrix"><a class="viewcode-back" href="../gazetimation.html#gazetimation.Gazetimation.find_camera_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">find_camera_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Calculates the camera matrix from image dimensions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            frame (np.ndarray): The image.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: Camera matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">focal_length</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">camera_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[[</span><span class="n">focal_length</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">focal_length</span><span class="p">,</span> <span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;double&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">camera_matrix</span></div>
+
+<div class="viewcode-block" id="Gazetimation.find_face_num"><a class="viewcode-back" href="../gazetimation.html#gazetimation.Gazetimation.find_face_num">[docs]</a>    <span class="k">def</span> <span class="nf">find_face_num</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_try</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">video_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Finds number of faces/people present in the scene</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            max_try (int, optional): Maximum number of frames to try. Defaults to 100.</span>
+<span class="sd">            video_path (str, optional): Path to the video file. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The number of faces/people present in the scene.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mp_face_detection</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">solutions</span><span class="o">.</span><span class="n">face_detection</span>
+        <span class="k">if</span> <span class="n">video_path</span><span class="p">:</span>
+            <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">video_path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">mp_face_detection</span><span class="o">.</span><span class="n">FaceDetection</span><span class="p">(</span>
+            <span class="n">model_selection</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">min_detection_confidence</span><span class="o">=</span><span class="mf">0.5</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">face_detection</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">try_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_try</span><span class="p">):</span>
+                <span class="n">success</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="k">if</span> <span class="n">try_</span> <span class="o">==</span> <span class="n">max_try</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="c1"># Convert the BGR image to RGB and process it with MediaPipe Face</span>
+            <span class="c1"># Detection.</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">face_detection</span><span class="o">.</span><span class="n">process</span><span class="p">(</span>
+                <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+
+            <span class="c1"># Draw face detections of each face.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span><span class="o">.</span><span class="n">detections</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">detections</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Gazetimation.calculate_head_eye_poses"><a class="viewcode-back" href="../gazetimation.html#gazetimation.Gazetimation.calculate_head_eye_poses">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_head_eye_poses</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">frame</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">points</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+        <span class="n">gaze_distance</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">face_model_points_3d</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Calculates the head and eye poses (gaze)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            frame (np.ndarray): The image.</span>
+<span class="sd">            points (object): Holds the facial landmarks points.</span>
+<span class="sd">            gaze_distance (int, optional): Gaze distance. Defaults to 10.</span>
+<span class="sd">            face_model_points_3d (np.ndarray, optional): Predefined 3D reference points for face model. Defaults to None.</span>
+
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: Returns two tuples (left and right eye) containing the pupil location and the projected gaze on the image plane.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">frame_height</span><span class="p">,</span> <span class="n">frame_width</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="c1"># If face_model_points_3d is provided</span>
+        <span class="c1"># update the object variable and use</span>
+        <span class="c1"># the updated values.</span>
+        <span class="k">if</span> <span class="n">face_model_points_3d</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">face_model_points_3d</span> <span class="o">=</span> <span class="n">face_model_points_3d</span>
+
+        <span class="c1"># Mediapipe points are normalized to [-1, 1].</span>
+        <span class="c1"># Image points holds the landmark points in terms of</span>
+        <span class="c1"># image coordinates</span>
+        <span class="n">image_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">(</span>
+                    <span class="n">points</span><span class="o">.</span><span class="n">landmark</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">frame_width</span><span class="p">,</span>
+                    <span class="n">points</span><span class="o">.</span><span class="n">landmark</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">frame_height</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">facial_landmark_index</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="c1"># 0 is added for each image_points e.g. in (x,y,0) format</span>
+        <span class="c1"># (stored in image_points_ext) to find the transformation</span>
+        <span class="c1"># from image to world points</span>
+        <span class="n">image_points_ext</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">image_points</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">image_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)))</span>
+        <span class="p">)</span>
+        <span class="n">dist_coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>  <span class="c1"># Assuming no lens distortion</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">rotation_vector</span><span class="p">,</span> <span class="n">translation_vector</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">solvePnP</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">face_model_points_3d</span><span class="p">,</span>
+            <span class="n">image_points</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">camera_matrix</span><span class="p">,</span>
+            <span class="n">dist_coeffs</span><span class="p">,</span>
+            <span class="n">flags</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">SOLVEPNP_ITERATIVE</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># 2d pupil location</span>
+        <span class="n">left_pupil</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">points</span><span class="o">.</span><span class="n">landmark</span><span class="p">[</span><span class="mi">468</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">frame_width</span><span class="p">,</span>
+                <span class="n">points</span><span class="o">.</span><span class="n">landmark</span><span class="p">[</span><span class="mi">468</span><span class="p">]</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">frame_height</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">right_pupil</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">points</span><span class="o">.</span><span class="n">landmark</span><span class="p">[</span><span class="mi">473</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">frame_width</span><span class="p">,</span>
+                <span class="n">points</span><span class="o">.</span><span class="n">landmark</span><span class="p">[</span><span class="mi">473</span><span class="p">]</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">frame_height</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Transformation between image point to world point</span>
+        <span class="n">success</span><span class="p">,</span> <span class="n">transformation</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">estimateAffine3D</span><span class="p">(</span>
+            <span class="n">image_points_ext</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">face_model_points_3d</span>
+        <span class="p">)</span>
+
+        <span class="c1"># if estimateAffine3D was successful</span>
+        <span class="c1"># project pupil image point into 3d world point</span>
+        <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+            <span class="n">pupil_world_cord</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">transformation</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">left_pupil</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">left_pupil</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                <span class="n">transformation</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">right_pupil</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">right_pupil</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># 3D gaze point (10 is arbitrary value denoting gaze distance)</span>
+            <span class="n">gaze_point_3D</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">left_eye_ball_center</span> <span class="o">+</span>
+                             <span class="p">(</span><span class="n">pupil_world_cord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">left_eye_ball_center</span><span class="p">)</span> <span class="o">*</span>
+                             <span class="n">gaze_distance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">right_eye_ball_center</span> <span class="o">+</span>
+                             <span class="p">(</span><span class="n">pupil_world_cord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">right_eye_ball_center</span><span class="p">)</span> <span class="o">*</span>
+                             <span class="n">gaze_distance</span><span class="p">,</span> <span class="p">]</span>
+
+            <span class="c1"># Project a 3D gaze direction onto the image plane.</span>
+            <span class="n">gaze_direction_left_eye</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">projectPoints</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">gaze_point_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">gaze_point_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">gaze_point_3D</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]),</span>
+                <span class="p">),</span>
+                <span class="n">rotation_vector</span><span class="p">,</span>
+                <span class="n">translation_vector</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">camera_matrix</span><span class="p">,</span>
+                <span class="n">dist_coeffs</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">gaze_direction_right_eye</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">projectPoints</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">gaze_point_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">gaze_point_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">gaze_point_3D</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]),</span>
+                <span class="p">),</span>
+                <span class="n">rotation_vector</span><span class="p">,</span>
+                <span class="n">translation_vector</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">camera_matrix</span><span class="p">,</span>
+                <span class="n">dist_coeffs</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="c1"># project 3D head pose into the image plane</span>
+            <span class="n">head_pose_left</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">projectPoints</span><span class="p">(</span>
+                <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">pupil_world_cord</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">pupil_world_cord</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="mi">40</span><span class="p">)),</span>
+                <span class="n">rotation_vector</span><span class="p">,</span>
+                <span class="n">translation_vector</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">camera_matrix</span><span class="p">,</span>
+                <span class="n">dist_coeffs</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">head_pose_right</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">projectPoints</span><span class="p">(</span>
+                <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">pupil_world_cord</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">pupil_world_cord</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="mi">40</span><span class="p">)),</span>
+                <span class="n">rotation_vector</span><span class="p">,</span>
+                <span class="n">translation_vector</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">camera_matrix</span><span class="p">,</span>
+                <span class="n">dist_coeffs</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="c1"># correct gaze for head rotation</span>
+            <span class="n">gaze_left_eye</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">left_pupil</span>
+                <span class="o">+</span> <span class="p">(</span><span class="n">gaze_direction_left_eye</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">left_pupil</span><span class="p">)</span>
+                <span class="o">-</span> <span class="p">(</span><span class="n">head_pose_left</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">left_pupil</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="n">gaze_right_eye</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">right_pupil</span>
+                <span class="o">+</span> <span class="p">(</span><span class="n">gaze_direction_right_eye</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">right_pupil</span><span class="p">)</span>
+                <span class="o">-</span> <span class="p">(</span><span class="n">head_pose_right</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">right_pupil</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="k">return</span> <span class="p">(</span><span class="n">left_pupil</span><span class="p">,</span> <span class="n">right_pupil</span><span class="p">),</span> <span class="p">(</span><span class="n">gaze_left_eye</span><span class="p">,</span> <span class="n">gaze_right_eye</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Gazetimation.smoothing"><a class="viewcode-back" href="../gazetimation.html#gazetimation.Gazetimation.smoothing">[docs]</a>    <span class="k">def</span> <span class="nf">smoothing</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">smoothing_weight</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">smoothing_frame_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">left_pupil</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">right_pupil</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">gaze_left_eye</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">gaze_right_eye</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Smoothing is performed so the result doesn&#39;t have abrupt changes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            smoothing_weight (str): Type of smoothing.</span>
+<span class="sd">            smoothing_frame_range (int): Number of frame to consider to perform smoothing.</span>
+<span class="sd">            left_pupil (np.ndarray): Position of the left pupil.</span>
+<span class="sd">            right_pupil (np.ndarray): Position of the right pupil.</span>
+<span class="sd">            gaze_left_eye (np.ndarray): Position of the estimated gaze of left eye.</span>
+<span class="sd">            gaze_right_eye (np.ndarray): Position of the estimated gaze of right eye.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple : Smoothed position of left_pupil, right_pupil, gaze_left_eye, gaze_right_eye</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;left_pupil&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">left_pupil</span><span class="p">),</span> <span class="p">(</span><span class="n">smoothing_frame_range</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+                <span class="s2">&quot;right_pupil&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">right_pupil</span><span class="p">),</span> <span class="p">(</span><span class="n">smoothing_frame_range</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="p">),</span>
+                <span class="s2">&quot;gaze_left_eye&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gaze_left_eye</span><span class="p">),</span> <span class="p">(</span><span class="n">smoothing_frame_range</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="p">),</span>
+                <span class="s2">&quot;gaze_right_eye&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gaze_right_eye</span><span class="p">),</span> <span class="p">(</span><span class="n">smoothing_frame_range</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="p">),</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="n">smoothing_weight</span> <span class="o">==</span> <span class="s2">&quot;linear&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">smoothing_frame_range</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">smoothing_weight</span> <span class="o">==</span> <span class="s2">&quot;logarithmic&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">smoothing_frame_range</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">left_pupil</span><span class="p">,</span> <span class="n">right_pupil</span><span class="p">,</span> <span class="n">gaze_left_eye</span><span class="p">,</span> <span class="n">gaze_right_eye</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;left_pupil&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;left_pupil&quot;</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;left_pupil&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">left_pupil</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;right_pupil&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;right_pupil&quot;</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;right_pupil&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">right_pupil</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;gaze_left_eye&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;gaze_left_eye&quot;</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;gaze_left_eye&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">gaze_left_eye</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;gaze_right_eye&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;gaze_right_eye&quot;</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;gaze_right_eye&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">gaze_right_eye</span>
+
+        <span class="k">if</span> <span class="n">smoothing_weight</span> <span class="o">==</span> <span class="s2">&quot;uniform&quot;</span><span class="p">:</span>
+            <span class="n">left_pupil_</span><span class="p">,</span> <span class="n">right_pupil_</span><span class="p">,</span> <span class="n">gaze_left_eye_</span><span class="p">,</span> <span class="n">gaze_right_eye_</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;left_pupil&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;right_pupil&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;gaze_left_eye&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;gaze_right_eye&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">smoothing_weight</span> <span class="o">==</span> <span class="s2">&quot;linear&quot;</span> <span class="ow">or</span> <span class="n">smoothing_weight</span> <span class="o">==</span> <span class="s2">&quot;logarithmic&quot;</span><span class="p">:</span>
+            <span class="n">left_pupil_</span><span class="p">,</span> <span class="n">right_pupil_</span><span class="p">,</span> <span class="n">gaze_left_eye_</span><span class="p">,</span> <span class="n">gaze_right_eye_</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ij, i -&gt; ij&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;left_pupil&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">),</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+                        <span class="s2">&quot;ij, i -&gt; ij&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;right_pupil&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span>
+                    <span class="p">),</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+                        <span class="s2">&quot;ij, i -&gt; ij&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;gaze_left_eye&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span>
+                    <span class="p">),</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span>
+                        <span class="s2">&quot;ij, i -&gt; ij&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span><span class="p">[</span><span class="s2">&quot;gaze_right_eye&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span>
+                    <span class="p">),</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">left_pupil_</span><span class="p">,</span> <span class="n">right_pupil_</span><span class="p">,</span> <span class="n">gaze_left_eye_</span><span class="p">,</span> <span class="n">gaze_right_eye_</span></div>
+
+<div class="viewcode-block" id="Gazetimation.run"><a class="viewcode-back" href="../gazetimation.html#gazetimation.Gazetimation.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">max_num_faces</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">video_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">smoothing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">smoothing_frame_range</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+        <span class="n">smoothing_weight</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+        <span class="n">custom_smoothing_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">video_output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Runs the solution</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            max_num_faces (int, optional): Maximum number of face(s)/people present in the scene. Defaults to 1.</span>
+<span class="sd">            video_path (str, optional): Path to the video. Defaults to None.</span>
+<span class="sd">            smoothing (bool, optional): If smoothing should be performed. Defaults to True.</span>
+<span class="sd">            smoothing_frame_range (int, optional): Number of frame to consider to perform smoothing.. Defaults to 8.</span>
+<span class="sd">            smoothing_weight (str, optional): Type of weighting scheme (&quot;uniform&quot;, &quot;linear&quot;, &quot;logarithmic&quot;). Defaults to &quot;uniform&quot;.</span>
+<span class="sd">            custom_smoothing_func (function, optional): Custom smoothing function. Defaults to None.</span>
+<span class="sd">            video_output_path (str, optional): Output path and format for output video.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">video_output_path</span><span class="p">:</span>
+            <span class="n">fourcc</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoWriter_fourcc</span><span class="p">(</span><span class="o">*</span><span class="s2">&quot;MJPG&quot;</span><span class="p">)</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoWriter</span><span class="p">(</span><span class="n">video_output_path</span><span class="p">,</span> <span class="n">fourcc</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">smoothing</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gaze_data</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">custom_smoothing_func</span><span class="p">:</span>
+                <span class="n">smoothing_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">smoothing</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">smoothing_func</span> <span class="o">=</span> <span class="n">custom_smoothing_func</span>
+        <span class="n">mp_face_mesh</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">solutions</span><span class="o">.</span><span class="n">face_mesh</span>  <span class="c1"># initialize the face mesh model</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">video_path</span><span class="p">:</span>
+            <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">video_path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># chose camera index (try 1, 2, 3)</span>
+            <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">mp_face_mesh</span><span class="o">.</span><span class="n">FaceMesh</span><span class="p">(</span>
+            <span class="n">max_num_faces</span><span class="o">=</span><span class="n">max_num_faces</span><span class="p">,</span>  <span class="c1"># number of faces to track in each frame</span>
+            <span class="n">refine_landmarks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># includes iris landmarks in the face mesh model</span>
+            <span class="n">min_detection_confidence</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">min_tracking_confidence</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">face_mesh</span><span class="p">:</span>
+            <span class="k">while</span> <span class="n">cap</span><span class="o">.</span><span class="n">isOpened</span><span class="p">():</span>
+                <span class="n">success</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera_matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">camera_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_camera_matrix</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>  <span class="c1"># no frame input</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ignoring empty camera frame.&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                <span class="c1"># To improve performance, optionally mark the image as not writeable to</span>
+                <span class="c1"># pass by reference.</span>
+                <span class="n">frame</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">writeable</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span>
+                    <span class="n">frame</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span>
+                <span class="p">)</span>  <span class="c1"># frame to RGB for the face-mesh model</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="n">face_mesh</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+                <span class="n">frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span>
+                    <span class="n">frame</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_RGB2BGR</span>
+                <span class="p">)</span>  <span class="c1"># frame back to BGR for OpenCV</span>
+
+                <span class="k">if</span> <span class="n">results</span><span class="o">.</span><span class="n">multi_face_landmarks</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">face_num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_num_faces</span><span class="p">):</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="p">(</span><span class="n">left_pupil</span><span class="p">,</span> <span class="n">right_pupil</span><span class="p">),</span> <span class="p">(</span>
+                                <span class="n">gaze_left_eye</span><span class="p">,</span>
+                                <span class="n">gaze_right_eye</span><span class="p">,</span>
+                            <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_head_eye_poses</span><span class="p">(</span>
+                                <span class="n">frame</span><span class="p">,</span> <span class="n">results</span><span class="o">.</span><span class="n">multi_face_landmarks</span><span class="p">[</span><span class="n">face_num</span><span class="p">]</span>
+                            <span class="p">)</span>  <span class="c1"># gaze estimation</span>
+                            <span class="k">if</span> <span class="n">smoothing</span><span class="p">:</span>
+                                <span class="p">(</span>
+                                    <span class="n">left_pupil</span><span class="p">,</span>
+                                    <span class="n">right_pupil</span><span class="p">,</span>
+                                    <span class="n">gaze_left_eye</span><span class="p">,</span>
+                                    <span class="n">gaze_right_eye</span><span class="p">,</span>
+                                <span class="p">)</span> <span class="o">=</span> <span class="n">smoothing_func</span><span class="p">(</span>
+                                    <span class="n">smoothing_weight</span><span class="p">,</span>
+                                    <span class="n">smoothing_frame_range</span><span class="p">,</span>
+                                    <span class="n">left_pupil</span><span class="p">,</span>
+                                    <span class="n">right_pupil</span><span class="p">,</span>
+                                    <span class="n">gaze_left_eye</span><span class="p">,</span>
+                                    <span class="n">gaze_right_eye</span><span class="p">,</span>
+                                <span class="p">)</span>
+                        <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TypeError: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                            <span class="k">continue</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">visualize</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">left_pupil</span><span class="p">,</span> <span class="n">gaze_left_eye</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">right_pupil</span><span class="p">,</span> <span class="n">gaze_right_eye</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">video_output_path</span><span class="p">:</span>
+                            <span class="n">out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+                <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&quot;output window&quot;</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span> <span class="o">==</span> <span class="mi">27</span><span class="p">:</span>
+                    <span class="k">break</span>
+        <span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Gazetimation.draw"><a class="viewcode-back" href="../gazetimation.html#gazetimation.Gazetimation.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pupil</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">gaze</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draws the gaze direction onto the frame</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            frame (np.ndarray): The image.</span>
+<span class="sd">            pupil (np.ndarray): 2D pupil location on the image.</span>
+<span class="sd">            gaze (np.ndarray): Gaze direction.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Draw gaze line into screen</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">pupil</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">pupil</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">gaze</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">gaze</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_arrowhead</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span>
+            <span class="n">frame</span><span class="p">,</span>
+            <span class="n">center</span><span class="o">=</span><span class="n">p1</span><span class="p">,</span>
+            <span class="n">radius</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="p">(</span>
+                <span class="mi">173</span><span class="p">,</span>
+                <span class="mi">68</span><span class="p">,</span>
+                <span class="mi">142</span><span class="p">),</span>
+            <span class="n">thickness</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Gazetimation.calculate_arrowhead"><a class="viewcode-back" href="../gazetimation.html#gazetimation.Gazetimation.calculate_arrowhead">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_arrowhead</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">start_coordinate</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span>
+        <span class="n">end_coordinate</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span>
+        <span class="n">arrow_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
+        <span class="n">arrow_angle</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">70</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the lines for arrowhead.</span>
+
+<span class="sd">        For a given line, it calculates the arrowhead</span>
+<span class="sd">        from the end (tip) of the line.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            start_coordinate (tuple): Start point of the line.</span>
+<span class="sd">            end_coordinate (tuple): End point of the line.</span>
+<span class="sd">            arrow_length (int, optional): Length of the arrowhead lines. Defaults to 15.</span>
+<span class="sd">            arrow_angle (int, optional): Angle (degree) of the arrowhead lines with the arrow-line. Defaults to 70.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple: Endpoints in the image of the two arrowhead lines.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span>
+                <span class="n">end_coordinate</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">start_coordinate</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">end_coordinate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">start_coordinate</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="p">)</span>
+        <span class="n">arrow_length</span> <span class="o">=</span> <span class="mi">15</span>
+
+        <span class="n">x1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">end_coordinate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span>
+            <span class="n">arrow_length</span> <span class="o">*</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span>
+                <span class="n">angle</span> <span class="o">-</span>
+                <span class="n">arrow_angle</span><span class="p">))</span>
+        <span class="n">y1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">end_coordinate</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
+            <span class="n">arrow_length</span> <span class="o">*</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span>
+                <span class="n">angle</span> <span class="o">-</span>
+                <span class="n">arrow_angle</span><span class="p">))</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">end_coordinate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span>
+            <span class="n">arrow_length</span> <span class="o">*</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span>
+                <span class="n">angle</span> <span class="o">+</span>
+                <span class="n">arrow_angle</span><span class="p">))</span>
+        <span class="n">y2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">end_coordinate</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
+            <span class="n">arrow_length</span> <span class="o">*</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span>
+                <span class="n">angle</span> <span class="o">+</span>
+                <span class="n">arrow_angle</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span></div></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Shuvo Paul
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
+    </body>
+</html>
