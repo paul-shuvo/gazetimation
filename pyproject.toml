@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gazetimation"
-version = "0.2.2"
+version = "0.2.3"
 description = "Gaze estimation from facial landmarks"
 authors = ["Shuvo Kumar Paul <shuvo.k.paul@gmail.com>"]
 license = "MIT"
@@ -14,9 +14,9 @@ include = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-mediapipe = "^0.8.10"
-numpy = "^1.23.2"
-opencv-python = "^4.6.0"
+mediapipe = "*"
+numpy = "*"
+opencv-python = "*"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
