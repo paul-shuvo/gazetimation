@@ -63,8 +63,8 @@ If any issues are found, they can be reported
 This project is licensed under the
 [MIT](https://opensource.org/licenses/MIT) license.
 
-### Acknowledgement
+<!-- ### Acknowledgement
 
 This package was inspired from the amazing [Medium
 post](https://medium.com/mlearning-ai/eye-gaze-estimation-using-a-webcam-in-100-lines-of-code-570d4683fe23)
-by Amit Aflalo
+by Amit Aflalo -->
