@@ -87,6 +87,6 @@ License
 This project is licensed under the `MIT <https://opensource.org/licenses/MIT>`__ license.
 
 
-Acknowledgement
-~~~~~~~~~~~~~~~
-This package was inspired from the amazing `Medium post <https://medium.com/mlearning-ai/eye-gaze-estimation-using-a-webcam-in-100-lines-of-code-570d4683fe23>`__ by Amit Aflalo
+.. Acknowledgement
+.. ~~~~~~~~~~~~~~~
+.. This package was inspired from the amazing `Medium post <https://medium.com/mlearning-ai/eye-gaze-estimation-using-a-webcam-in-100-lines-of-code-570d4683fe23>`__ by Amit Aflalo
